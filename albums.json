@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Nature",
+    "folder": "nature",
+    "images": [
+      {"file": "IMG_001.jpg", "caption": "Sunset over the valley"},
+      {"file": "IMG_002.jpg", "caption": "Misty forest"},
+      {"file": "IMG_003.jpg", "caption": "Riverbend"}
+    ]
+  },
+  {
+    "title": "City Trails",
+    "folder": "city-trails",
+    "images": [
+      {"file": "CT_001.jpg", "caption": "Late-night avenue"},
+      {"file": "CT_002.jpg", "caption": "Old brick alley"},
+      {"file": "CT_003.jpg", "caption": "Sunlit crosswalk"}
+    ]
+  },
+  {
+    "title": "Animals",
+    "folder": "animals",
+    "images": [
+      {"file": "A_001.jpg", "caption": "Curious bird"},
+      {"file": "A_002.jpg", "caption": "Sleepy cat"},
+      {"file": "A_003.jpg", "caption": "Deer in the meadow"}
+    ]
+  },
+  {
+    "title": "Others",
+    "folder": "others",
+    "images": [
+      {"file": "O_001.jpg", "caption": "Abstract texture"},
+      {"file": "O_002.jpg", "caption": "Street portrait"},
+      {"file": "O_003.jpg", "caption": "Interior study"}
+    ]
+  }
+]
