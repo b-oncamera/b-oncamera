@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Your Name — Photo Albums</title>
+<style>
+  body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:0;background:#0f1113;color:#fff}
+  header{padding:22px;text-align:center}
+  header p{opacity:.85;margin:6px 0 0}
+  .container{max-width:1200px;margin:0 auto;padding:12px}
+  .album{margin:18px 0}
+  .album h2{margin:6px 0 10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
+  .grid img{width:100%;height:160px;object-fit:cover;border-radius:6px;cursor:pointer;display:block}
+  .lightbox-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.92);z-index:999;padding:20px}
+  .lightbox-wrap.visible{display:flex}
+  .lb-img{max-width:92%;max-height:82%}
+  .lb-caption{color:#ddd;margin-top:10px;text-align:center}
+  .nav-btn{position:absolute;top:50%;transform:translateY(-50%);font-size:42px;color:#fff;padding:8px 12px;cursor:pointer;user-select:none}
+  .nav-left{left:8px} .nav-right{right:8px}
+  footer{padding:14px;text-align:center;opacity:.7}
+  a.link{color:#6fd; text-decoration:none}
+  @media (max-width:520px){ .grid img{height:120px} .nav-btn{font-size:34px} }
+</style>
+</head>
+<body>
+<header>
+  <h1>Your Name — Photo Albums</h1>
+  <p style="opacity:.8">Add images into /images/&lt;folder&gt; and update <strong>albums.json</strong> filenames/captions</p>
+</header>
+
+<div class="container" id="albums"></div>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox-wrap" tabindex="-1" aria-hidden="true">
+  <div class="nav-btn nav-left" id="prevBtn">&#9664;</div>
+  <div style="text-align:center;max-width:95%;">
+    <img id="lbImg" class="lb-img" src="" alt="">
+    <div id="lbCaption" class="lb-caption"></div>
+  </div>
+  <div class="nav-btn nav-right" id="nextBtn">&#9654;</div>
+</div>
+
+<footer>Hosted on GitHub Pages • Free portfolio</footer>
+
+<script>
+(async function(){
+  // load albums.json
+  const res = await fetch('albums.json');
+  if(!res.ok){
+    document.getElementById('albums').innerText = 'albums.json not found. Make sure albums.json is in the repo root.';
+    return;
+  }
+  const albums = await res.json();
+  const container = document.getElementById('albums');
+
+  albums.forEach((alb, ai)=>{
+    const sec = document.createElement('section');
+    sec.className = 'album';
+    const h = document.createElement('h2'); h.textContent = alb.title;
+    sec.appendChild(h);
+    const grid = document.createElement('div'); grid.className = 'grid';
+    alb.images.forEach((img, ii)=>{
+      const a = document.createElement('a'); a.href = 'javascript:void(0)';
+      const im = document.createElement('img');
+      im.src = `images/${alb.folder}/${img.file}`;
+      im.alt = img.caption || img.file;
+      im.dataset.albumIndex = ai;
+      im.dataset.imageIndex = ii;
+      im.addEventListener('click', openLightbox);
+      a.appendChild(im);
+      grid.appendChild(a);
+    });
+    sec.appendChild(grid);
+    container.appendChild(sec);
+  });
+
+  // Lightbox logic
+  const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg'), lbCaption = document.getElementById('lbCaption');
+  let current = {a:0,i:0};
+
+  function show(a,i){
+    const alb = albums[a];
+    const item = alb.images[i];
+    lbImg.src = `images/${alb.folder}/${item.file}`;
+    lbImg.alt = item.caption || item.file;
+    lbCaption.textContent = item.caption || '';
+    current = {a,i};
+    lb.classList.add('visible');
+    lb.setAttribute('aria-hidden','false');
+  }
+  function close(){ lb.classList.remove('visible'); lb.setAttribute('aria-hidden','true'); }
+
+  function openLightbox(e){ 
+    const ai = Number(e.target.dataset.albumIndex), ii = Number(e.target.dataset.imageIndex);
+    show(ai, ii);
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', ()=>{
+    let {a,i} = current; i--; if(i<0){ a = (a-1+albums.length)%albums.length; i = albums[a].images.length - 1; }
+    show(a,i);
+  });
+  document.getElementById('nextBtn').addEventListener('click', ()=>{
+    let {a,i} = current; i++; if(i>=albums[a].images.length){ a = (a+1)%albums.length; i = 0; }
+    show(a,i);
+  });
+
+  lb.addEventListener('click', (ev)=>{
+    if(ev.target === lb) close();
+  });
+  document.addEventListener('keydown', (ev)=>{
+    if(lb.classList.contains('visible')){
+      if(ev.key==='Escape') close();
+      if(ev.key==='ArrowLeft') document.getElementById('prevBtn').click();
+      if(ev.key==='ArrowRight') document.getElementById('nextBtn').click();
+    }
+  });
+})();
+</script>
+</body>
+</html>
