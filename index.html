@@ -9,10 +9,10 @@
   <link href="https://fonts.cdnfonts.com/css/braven" rel="stylesheet">
   <style>
     :root{
-      --bg-grad-a:#f7f8fb;
-      --bg-grad-b:#f2f6f3;
+      --bg-home:#f9f9f7;       /* Home background */
+      --bg-portfolio:#ffffff;  /* Portfolio background */
       --surface:#ffffff;
-      --about-surface: rgba(47,52,56,0.78); /* translucent dark about box */
+      --about-surface: rgba(34, 34, 34, 0.65); /* darker translucent gray */
       --about-text:#eef2f4;
       --muted:#67706a;
       --text:#111217;
@@ -27,7 +27,8 @@
       margin:0;
       font-family:"Braven", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
       color:var(--text);
-      background:linear-gradient(135deg,var(--bg-grad-a) 0%,var(--bg-grad-b) 100%);
+      background:var(--bg-home); /* default is home */
+      transition:background 0.4s ease;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
@@ -41,7 +42,6 @@
     .wrap{max-width:var(--maxw);margin:0 auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
     .brand img{height:36px;width:auto;display:block}
 
-    /* Header tabs styling like annex 2 */
     nav ul{display:flex;gap:18px;list-style:none;padding:0;margin:0}
     nav button{
       background:none;border:0;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600;
@@ -49,16 +49,13 @@
       text-transform:uppercase;letter-spacing:4px;font-size:13px;
       border:2px solid transparent;
     }
-    /* inactive minimal (left in annex) */
-    nav button.inactive{ color:var(--muted); background:transparent; border-color:transparent; padding:6px 12px; }
-    /* active outlined rectangle (right in annex) */
+    nav button.inactive{ color:var(--muted); background:transparent; border-color:transparent; }
     nav button.active{
       color:var(--text);
       border-color:rgba(17,18,23,0.12);
       background:transparent;
       padding:10px 18px;
       border-radius:6px;
-      box-shadow:none;
       letter-spacing:3.5px;
     }
 
@@ -73,7 +70,7 @@
     .dot{width:10px;height:10px;border-radius:50%;background:rgba(17,18,23,0.12);cursor:pointer}
     .dot.active{box-shadow:0 0 0 4px rgba(17,18,23,0.03), inset 0 0 0 2px rgba(255,255,255,0.6)}
 
-    /* About box: translucent with subtle blur */
+    /* About box */
     .about{
       background:var(--about-surface);
       padding:24px;border-radius:12px;margin:20px auto 0;
@@ -87,7 +84,7 @@
     .about p{margin:0;color:var(--about-text);line-height:1.95;font-size:15px}
     .about p + p{margin-top:16px}
 
-    /* Portfolio - tile visual like annex 1 */
+    /* Portfolio */
     .albums-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;max-width:980px;margin:10px auto}
     .album-card{
       position:relative;
@@ -102,19 +99,15 @@
     .album-thumb{width:100%;height:100%;min-height:300px;background:#f2f2f2;display:block}
     .album-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
     .album-card:hover .album-thumb img{transform:scale(1.03)}
-    /* centered translucent overlay square */
+
     .album-overlay{
       position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-      width:44%;max-width:320px;padding:26px 20px;border-radius:6px;
-      background:rgba(255,255,255,0.9); /* light translucent box like annex */
+      width:44%;max-width:320px;padding:20px;border-radius:6px;
+      background:rgba(255,255,255,0.9);
       text-align:center;box-shadow:0 8px 24px rgba(11,12,13,0.06);
     }
-    .album-overlay .num{font-size:18px;color:#444;margin-bottom:10px;letter-spacing:1px}
-    .album-overlay .rule{width:36px;height:2px;background:#bfc4c6;margin:8px auto;border-radius:2px;opacity:.9}
-    .album-overlay .title{font-style:italic;font-size:20px;color:#222;margin-top:12px}
-    /* album meta below image */
-    .album-meta{padding:14px 16px;background:transparent;display:flex;justify-content:space-between;align-items:center}
-    .album-count{color:var(--muted);font-size:13px;font-weight:600}
+    .album-overlay img{width:48px;height:48px;object-fit:contain;margin-bottom:10px}
+    .album-overlay .title{font-style:italic;font-size:20px;color:#222}
 
     /* Album page */
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
@@ -149,10 +142,8 @@
   <header>
     <div class="wrap">
       <div class="brand">
-        <!-- Upload logo at images/logo.png -->
         <img src="images/logo.png" alt="logo" onerror="this.style.display='none'">
       </div>
-
       <nav>
         <ul>
           <li><button id="tab-home" class="active">Home</button></li>
@@ -174,7 +165,6 @@
   <footer>b_oncamera</footer>
 
 <script>
-// Minimal SPA using albums.json
 let albums = [];
 async function loadAlbums(){
   try{
@@ -189,7 +179,6 @@ async function loadAlbums(){
 function el(tag, opts={}, ...kids){ const e=document.createElement(tag); Object.assign(e, opts); for(const k of kids) if(typeof k==='string') e.appendChild(document.createTextNode(k)); else if(k) e.appendChild(k); return e; }
 function randItem(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-// fixed slideshow files (your chosen picks; will be skipped if missing)
 const SLIDES = [
   {folder:'nature', file:'N_37.jpg'},
   {folder:'city-trails', file:'C_04.jpg'},
@@ -198,24 +187,22 @@ const SLIDES = [
 ];
 
 function showHome(){
+  document.body.style.background = "var(--bg-home)";
   const content = document.getElementById('content'); content.innerHTML='';
   const slideWrap = el('div',{className:'slideshow'});
   const slide = el('div',{className:'slide'}); slideWrap.appendChild(slide);
   const controls = el('div',{className:'controls'}); slideWrap.appendChild(controls);
 
-  // find slides that exist (best-effort)
   const covers=[];
   SLIDES.forEach(s=>{
     const alb = albums.find(a=>a.folder===s.folder);
-    // if album lists the file, prefer that; otherwise still attempt (best-effort)
     if(alb && alb.images && alb.images.some(i=>i.file===s.file)){
-      covers.push({album:alb, item:{file:s.file, caption:(alb.images.find(i=>i.file===s.file)||{}).caption||''}});
+      covers.push({album:alb, item:{file:s.file}});
     } else {
-      covers.push({album:{folder:s.folder,title:''}, item:{file:s.file, caption:''}});
+      covers.push({album:{folder:s.folder,title:''}, item:{file:s.file}});
     }
   });
 
-  // verify which images actually load
   const existing=[]; let done=0;
   covers.forEach(c=>{
     const imgTest = new Image();
@@ -230,14 +217,14 @@ function showHome(){
     let i=0;
     function render(){
       const src = `images/${arr[i].album.folder}/${arr[i].item.file}`;
-      slide.innerHTML=''; slide.appendChild(el('img',{src:src,alt:arr[i].item.caption||arr[i].item.file}));
+      slide.innerHTML=''; slide.appendChild(el('img',{src:src,alt:arr[i].item.file}));
       controls.innerHTML='';
       arr.forEach((_,idx)=>{ const d=el('div',{className:'dot' + (idx===i?' active':'')}); d.onclick=()=>{ i=idx; render(); }; controls.appendChild(d); });
     }
     render();
-    let t = setInterval(()=>{ i=(i+1)%arr.length; render(); },5200);
+    let t = setInterval(()=>{ i=(i+1)%arr.length; render(); },3200); // faster
     slideWrap.addEventListener('mouseenter',()=>clearInterval(t));
-    slideWrap.addEventListener('mouseleave',()=>{ t=setInterval(()=>{ i=(i+1)%arr.length; render(); },5200); });
+    slideWrap.addEventListener('mouseleave',()=>{ t=setInterval(()=>{ i=(i+1)%arr.length; render(); },3200); });
     content.appendChild(slideWrap);
     addAbout(content);
     setActiveTab('home');
@@ -250,33 +237,35 @@ function addAbout(content){
   const avatar = el('div',{className:'avatar'});
   avatar.appendChild(el('img',{src:'images/profile.jpg',alt:'Profile'}));
   const txt = el('div',{});
-  txt.appendChild(el('p',{},'Just a girl with a 𝗖𝗮𝗻𝗼𝗻 𝗘𝗢𝗦 𝗠𝟮𝟬𝟬, capturing life’s little quirks ⛶'));
-  txt.appendChild(el('p',{},'◉ 𝘓𝘦𝘯𝘴𝘦𝘴 : EF-M 15 - 45mm & EF-M 55 - 200mm'));
+  txt.appendChild(el('p',{},'Just a girl with a Canon EOS M200, capturing life’s little quirks ⛶'));
+  txt.appendChild(el('p',{},'◉ Lenses: EF-M 15-45mm & EF-M 55-200mm'));
   ai.appendChild(avatar); ai.appendChild(txt); about.appendChild(ai);
   content.appendChild(about);
 }
 
 function showPortfolio(){
+  document.body.style.background = "var(--bg-portfolio)";
   const content = document.getElementById('content'); content.innerHTML='';
   const grid = el('div',{className:'albums-grid'});
   albums.forEach(a=>{
     const card = el('div',{className:'album-card'});
     const thumb = el('div',{className:'album-thumb'});
     const cover = (a.images && a.images.length)? a.images[0] : null;
-    if(cover) thumb.appendChild(el('img',{src:`images/${a.folder}/${cover.file}`,alt:cover.caption||cover.file}));
+    if(cover) thumb.appendChild(el('img',{src:`images/${a.folder}/${cover.file}`,alt:cover.file}));
     else thumb.appendChild(el('div',{},'No photos'));
-    // overlay center
+
     const overlay = el('div',{className:'album-overlay'});
-    const count = (a.images? a.images.length : 0);
-    overlay.appendChild(el('div',{className:'num'}, String(count)));
-    overlay.appendChild(el('div',{className:'rule'}));
+    const iconMap = {
+      "nature":"nature.png",
+      "city-trails":"city.png",
+      "animals":"animals.png",
+      "others":"others.png"
+    };
+    if(iconMap[a.folder]) overlay.appendChild(el('img',{src:`images/${iconMap[a.folder]}`,alt:a.title+" icon"}));
     overlay.appendChild(el('div',{className:'title'}, a.title));
     card.appendChild(thumb);
     card.appendChild(overlay);
-    // meta below visually (optional)
-    const meta = el('div',{className:'album-meta'});
-    meta.appendChild(el('div',{},'')); meta.appendChild(el('div',{className:'album-count'}, count + ' photos'));
-    card.appendChild(meta);
+
     card.onclick = ()=> showAlbum(a.folder);
     grid.appendChild(card);
   });
@@ -285,14 +274,24 @@ function showPortfolio(){
 }
 
 function showAlbum(folder){
+  document.body.style.background = "var(--bg-portfolio)";
   const album = albums.find(a=>a.folder===folder);
   if(!album) return;
   const content = document.getElementById('content'); content.innerHTML='';
-  const back = el('button',{},'← Back'); back.style.marginBottom='12px'; back.onclick = ()=>{ setActiveTab('portfolio'); showPortfolio(); };
+  const back = el('button',{className:'inactive'},'← Back'); 
+  back.onclick = ()=>{ setActiveTab('portfolio'); showPortfolio(); };
   content.appendChild(back);
-  content.appendChild(el('h2',{}, album.title));
+  const title = el('h2',{}, album.title);
+  title.style.fontFamily = '"Braven", Inter, sans-serif';
+  title.style.textTransform = "uppercase";
+  content.appendChild(title);
   const g = el('div',{className:'grid'});
-  album.images.forEach((img,ii)=>{ const im = el('img',{src:`images/${album.folder}/${img.file}`,alt:img.caption||img.file}); im.dataset.album=album.folder; im.dataset.index=ii; im.addEventListener('click',()=>openLightbox(album.folder, ii)); g.appendChild(im); });
+  album.images.forEach((img,ii)=>{ 
+    const im = el('img',{src:`images/${album.folder}/${img.file}`,alt:img.caption||img.file}); 
+    im.dataset.album=album.folder; im.dataset.index=ii; 
+    im.addEventListener('click',()=>openLightbox(album.folder, ii)); 
+    g.appendChild(im); 
+  });
   content.appendChild(g);
 }
 
@@ -304,7 +303,6 @@ function openLightbox(folder, index){
   lbimg.src = `images/${folder}/${item.file}`; lbcap.textContent = item.caption||''; lb.classList.add('visible'); lb.setAttribute('aria-hidden','false');
 }
 function closeLightbox(){ const lb = document.getElementById('lightbox'); lb.classList.remove('visible'); lb.setAttribute('aria-hidden','true'); }
-
 document.getElementById('lightbox').addEventListener('click', closeLightbox);
 
 function setActiveTab(id){
@@ -316,7 +314,6 @@ function setActiveTab(id){
 
 async function init(){
   await loadAlbums();
-  // wire tabs
   document.getElementById('tab-home').addEventListener('click', ()=>{ setActiveTab('home'); showHome(); history.pushState({},'', '#home'); });
   document.getElementById('tab-portfolio').addEventListener('click', ()=>{ setActiveTab('portfolio'); showPortfolio(); history.pushState({},'', '#portfolio'); });
 
@@ -324,7 +321,6 @@ async function init(){
   if(hash && hash.startsWith('album/')){ const folder = hash.split('/')[1]; setActiveTab('portfolio'); showAlbum(folder); }
   else if(hash==='portfolio'){ setActiveTab('portfolio'); showPortfolio(); } else { setActiveTab('home'); showHome(); }
 }
-
 init();
 </script>
 </body>
