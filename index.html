@@ -5,30 +5,29 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>b_oncamera: Portfolio</title>
   <meta name="description" content="Photography Portfolio" />
-  <!-- Braven via CDN with safe fallbacks -->
+  <!-- Braven via CDN -->
   <link href="https://fonts.cdnfonts.com/css/braven" rel="stylesheet">
   <style>
     :root{
-      /* pastel gradient + complementary surfaces */
-      --bg-grad-a: #f7f8fb;
-      --bg-grad-b: #f2f6f3;
-      --surface: #ffffff;
-      --about-surface: #2f3438; /* darker about box */
-      --about-text: #e9eef2;
-      --muted: #67706a;
-      --text: #111217;
-      --accent-home: #6aa6ff;
-      --accent-portfolio: #4fbfa6;
-      --gap: 18px;
-      --maxw: 1100px;
-      --radius: 10px;
+      --bg-grad-a:#f7f8fb;
+      --bg-grad-b:#f2f6f3;
+      --surface:#ffffff;
+      --about-surface: rgba(47,52,56,0.78); /* translucent dark about box */
+      --about-text:#eef2f4;
+      --muted:#67706a;
+      --text:#111217;
+      --accent-home:#6aa6ff;
+      --accent-portfolio:#4fbfa6;
+      --gap:18px;
+      --maxw:1100px;
+      --radius:12px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: "Braven", Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-family:"Braven", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
       color:var(--text);
-      background: linear-gradient(135deg, var(--bg-grad-a) 0%, var(--bg-grad-b) 100%);
+      background:linear-gradient(135deg,var(--bg-grad-a) 0%,var(--bg-grad-b) 100%);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
@@ -40,16 +39,28 @@
       backdrop-filter: blur(6px);
     }
     .wrap{max-width:var(--maxw);margin:0 auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand img{height:34px;width:auto;display:block}
-    nav ul{display:flex;gap:12px;list-style:none;padding:0;margin:0}
+    .brand img{height:36px;width:auto;display:block}
+
+    /* Header tabs styling like annex 2 */
+    nav ul{display:flex;gap:18px;list-style:none;padding:0;margin:0}
     nav button{
-      background:none;border:0;color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;
-      transition:all .18s ease;font-family:inherit;
+      background:none;border:0;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600;
+      transition:all .12s ease;font-family:inherit;
+      text-transform:uppercase;letter-spacing:4px;font-size:13px;
+      border:2px solid transparent;
     }
-    /* different accent colors for each tab when active */
-    #tab-home.active{ color:var(--accent-home); background:rgba(106,166,255,0.08); }
-    #tab-portfolio.active{ color:var(--accent-portfolio); background:rgba(79,191,166,0.06); }
+    /* inactive minimal (left in annex) */
+    nav button.inactive{ color:var(--muted); background:transparent; border-color:transparent; padding:6px 12px; }
+    /* active outlined rectangle (right in annex) */
+    nav button.active{
+      color:var(--text);
+      border-color:rgba(17,18,23,0.12);
+      background:transparent;
+      padding:10px 18px;
+      border-radius:6px;
+      box-shadow:none;
+      letter-spacing:3.5px;
+    }
 
     main{padding:28px 20px}
     .section{max-width:var(--maxw);margin:0 auto;padding:0 12px}
@@ -62,20 +73,47 @@
     .dot{width:10px;height:10px;border-radius:50%;background:rgba(17,18,23,0.12);cursor:pointer}
     .dot.active{box-shadow:0 0 0 4px rgba(17,18,23,0.03), inset 0 0 0 2px rgba(255,255,255,0.6)}
 
-    /* About box: darker surface, centered, wider and increased spacing */
-    .about{background:var(--about-surface);padding:22px;border-radius:12px;margin:20px auto 0;max-width:880px;border:1px solid rgba(255,255,255,0.03);color:var(--about-text)}
+    /* About box: translucent with subtle blur */
+    .about{
+      background:var(--about-surface);
+      padding:24px;border-radius:12px;margin:20px auto 0;
+      max-width:880px;border:1px solid rgba(255,255,255,0.04);
+      color:var(--about-text);
+      backdrop-filter: blur(4px);
+    }
     .about-inner{display:flex;gap:20px;align-items:center}
     .avatar{width:110px;height:110px;border-radius:999px;overflow:hidden;flex:0 0 110px;border:1px solid rgba(255,255,255,0.06)}
     .avatar img{width:100%;height:100%;object-fit:cover}
     .about p{margin:0;color:var(--about-text);line-height:1.95;font-size:15px}
-    .about p + p{margin-top:16px} /* more space between sentences */
+    .about p + p{margin-top:16px}
 
-    /* Portfolio layout - 2x2 tile grid, larger tiles */
-    .albums-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;max-width:980px;margin:10px auto}
-    .album-card{background:var(--surface);padding:10px;border-radius:12px;border:1px solid rgba(17,18,23,0.04);cursor:pointer;box-shadow:0 10px 30px rgba(11,12,13,0.03);display:flex;flex-direction:column}
-    .album-thumb{width:100%;height:300px;border-radius:10px;overflow:hidden;background:#f2f2f2}
-    .album-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .album-title{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-weight:700}
+    /* Portfolio - tile visual like annex 1 */
+    .albums-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;max-width:980px;margin:10px auto}
+    .album-card{
+      position:relative;
+      border-radius:12px;overflow:hidden;
+      cursor:pointer;
+      border:1px solid rgba(17,18,23,0.04);
+      box-shadow: 0 12px 30px rgba(11,12,13,0.04);
+      background:var(--surface);
+      display:block;
+      min-height:360px;
+    }
+    .album-thumb{width:100%;height:100%;min-height:300px;background:#f2f2f2;display:block}
+    .album-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+    .album-card:hover .album-thumb img{transform:scale(1.03)}
+    /* centered translucent overlay square */
+    .album-overlay{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      width:44%;max-width:320px;padding:26px 20px;border-radius:6px;
+      background:rgba(255,255,255,0.9); /* light translucent box like annex */
+      text-align:center;box-shadow:0 8px 24px rgba(11,12,13,0.06);
+    }
+    .album-overlay .num{font-size:18px;color:#444;margin-bottom:10px;letter-spacing:1px}
+    .album-overlay .rule{width:36px;height:2px;background:#bfc4c6;margin:8px auto;border-radius:2px;opacity:.9}
+    .album-overlay .title{font-style:italic;font-size:20px;color:#222;margin-top:12px}
+    /* album meta below image */
+    .album-meta{padding:14px 16px;background:transparent;display:flex;justify-content:space-between;align-items:center}
     .album-count{color:var(--muted);font-size:13px;font-weight:600}
 
     /* Album page */
@@ -94,6 +132,7 @@
       .slide{height:360px}
       .albums-grid{grid-template-columns:repeat(2,1fr)}
       .about-inner{flex-direction:row}
+      .album-overlay{width:56%}
     }
     @media (max-width:720px){
       .slide{height:280px}
@@ -101,7 +140,8 @@
       .about-inner{flex-direction:row}
       .about{padding:16px}
       .avatar{width:80px;height:80px;flex:0 0 80px}
-      .album-thumb{height:200px}
+      .album-thumb{height:220px}
+      .album-overlay{width:70%}
     }
   </style>
 </head>
@@ -109,14 +149,14 @@
   <header>
     <div class="wrap">
       <div class="brand">
-        <!-- Upload your logo at images/logo.png. If missing, the img will hide via onerror -->
-        <img src="images/logo.png" alt="b_oncamera logo" onerror="this.style.display='none'">
+        <!-- Upload logo at images/logo.png -->
+        <img src="images/logo.png" alt="logo" onerror="this.style.display='none'">
       </div>
 
       <nav>
         <ul>
-          <li><button id="tab-home" class="active">Home</button></li>
-          <li><button id="tab-portfolio">Portfolio</button></li>
+          <li><button id="tab-home" class="active">Início</button></li>
+          <li><button id="tab-portfolio" class="">Portefólio</button></li>
         </ul>
       </nav>
     </div>
@@ -146,156 +186,121 @@ async function loadAlbums(){
     console.error('Could not load albums.json', e);
   }
 }
-
-function el(tag, opts={}, ...kids){ const e = document.createElement(tag); Object.assign(e, opts); for(const k of kids) if(typeof k === 'string') e.appendChild(document.createTextNode(k)); else if(k) e.appendChild(k); return e; }
-
+function el(tag, opts={}, ...kids){ const e=document.createElement(tag); Object.assign(e, opts); for(const k of kids) if(typeof k==='string') e.appendChild(document.createTextNode(k)); else if(k) e.appendChild(k); return e; }
 function randItem(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-// Use fixed slideshow images (if present)
+// fixed slideshow files (your chosen picks; will be skipped if missing)
 const SLIDES = [
-  {folder: 'nature', file: 'N_37.jpg'},
-  {folder: 'city-trails', file: 'C_04.jpg'},
-  {folder: 'animals', file: 'A_02.jpg'},
-  {folder: 'others', file: 'O_14.jpg'}
+  {folder:'nature', file:'N_37.jpg'},
+  {folder:'city-trails', file:'C_04.jpg'},
+  {folder:'animals', file:'A_02.jpg'},
+  {folder:'others', file:'O_14.jpg'}
 ];
 
 function showHome(){
   const content = document.getElementById('content'); content.innerHTML='';
-
-  // slideshow full width
   const slideWrap = el('div',{className:'slideshow'});
-  const slide = el('div',{className:'slide'});
-  slideWrap.appendChild(slide);
-  const controls = el('div',{className:'controls'});
-  slideWrap.appendChild(controls);
+  const slide = el('div',{className:'slide'}); slideWrap.appendChild(slide);
+  const controls = el('div',{className:'controls'}); slideWrap.appendChild(controls);
 
-  // Build slides but only include those that exist in albums (safely)
-  const covers = [];
+  // find slides that exist (best-effort)
+  const covers=[];
   SLIDES.forEach(s=>{
-    // ensure album exists and file exists in that album listing
     const alb = albums.find(a=>a.folder===s.folder);
-    if(alb && alb.images && alb.images.some(i=>i.file === s.file)){
-      covers.push({album: alb, item: {file: s.file, caption: (alb.images.find(i=>i.file===s.file)||{}).caption || ''}});
+    // if album lists the file, prefer that; otherwise still attempt (best-effort)
+    if(alb && alb.images && alb.images.some(i=>i.file===s.file)){
+      covers.push({album:alb, item:{file:s.file, caption:(alb.images.find(i=>i.file===s.file)||{}).caption||''}});
     } else {
-      // if the file is not declared in albums.json but physically present, we still allow it (best-effort)
-      // We'll still push a best-guess src (no caption)
-      covers.push({album: {folder: s.folder, title: ''}, item: {file: s.file, caption: ''}});
+      covers.push({album:{folder:s.folder,title:''}, item:{file:s.file, caption:''}});
     }
   });
 
-  // filter out slides with missing images by testing fetch with Image object (quick check)
-  const existing = [];
-  let checks = covers.length;
-  if(checks===0){
-    slide.appendChild(el('div',{}, 'No photos yet.'));
-    content.appendChild(slideWrap);
-    // About below (still)
-    addAbout(content);
-    setActiveTab('home');
-    return;
-  }
-
-  // helper to check image existence (non-blocking)
-  let provided = 0;
-  covers.forEach((c, idx) => {
-    const img = new Image();
-    img.onload = ()=>{ existing.push(c); provided++; if(provided===covers.length) startSlideshow(existing, slide, controls, content, slideWrap); };
-    img.onerror = ()=>{ provided++; if(provided===covers.length) startSlideshow(existing, slide, controls, content, slideWrap); };
-    img.src = `images/${c.album.folder}/${c.item.file}`;
+  // verify which images actually load
+  const existing=[]; let done=0;
+  covers.forEach(c=>{
+    const imgTest = new Image();
+    imgTest.onload = ()=>{ existing.push(c); done++; if(done===covers.length) start(existing); };
+    imgTest.onerror = ()=>{ done++; if(done===covers.length) start(existing); };
+    imgTest.src = `images/${c.album.folder}/${c.item.file}`;
   });
+  if(covers.length===0){ slide.appendChild(el('div',{},'No photos yet.')); content.appendChild(slideWrap); addAbout(content); setActiveTab('home'); return; }
 
-  function startSlideshow(arr, slide, controls, content, slideWrap){
-    if(arr.length===0){
-      slide.appendChild(el('div',{}, 'No photos yet.'));
-      content.appendChild(slideWrap);
-      addAbout(content);
-      setActiveTab('home');
-      return;
-    }
+  function start(arr){
+    if(arr.length===0){ slide.appendChild(el('div',{},'No photos yet.')); content.appendChild(slideWrap); addAbout(content); setActiveTab('home'); return; }
     let i=0;
     function render(){
-      const imgSrc = `images/${arr[i].album.folder}/${arr[i].item.file}`;
-      slide.innerHTML = '';
-      const img = el('img',{src:imgSrc, alt:arr[i].item.caption||arr[i].item.file});
-      slide.appendChild(img);
-      controls.innerHTML = '';
-      arr.forEach((c, idx)=>{
-        const d = el('div',{className:'dot' + (idx===i?' active':'' )});
-        d.onclick = ()=>{ i=idx; render(); };
-        controls.appendChild(d);
-      });
+      const src = `images/${arr[i].album.folder}/${arr[i].item.file}`;
+      slide.innerHTML=''; slide.appendChild(el('img',{src:src,alt:arr[i].item.caption||arr[i].item.file}));
+      controls.innerHTML='';
+      arr.forEach((_,idx)=>{ const d=el('div',{className:'dot' + (idx===i?' active':'')}); d.onclick=()=>{ i=idx; render(); }; controls.appendChild(d); });
     }
     render();
-    let timer = setInterval(()=>{ i=(i+1)%arr.length; render(); },5200);
-    slideWrap.addEventListener('mouseenter', ()=>clearInterval(timer));
-    slideWrap.addEventListener('mouseleave', ()=>{ timer = setInterval(()=>{ i=(i+1)%arr.length; render(); },5200); });
+    let t = setInterval(()=>{ i=(i+1)%arr.length; render(); },5200);
+    slideWrap.addEventListener('mouseenter',()=>clearInterval(t));
+    slideWrap.addEventListener('mouseleave',()=>{ t=setInterval(()=>{ i=(i+1)%arr.length; render(); },5200); });
     content.appendChild(slideWrap);
     addAbout(content);
     setActiveTab('home');
   }
 }
 
-// About block builder
 function addAbout(content){
   const about = el('aside',{className:'about'});
   const ai = el('div',{className:'about-inner'});
   const avatar = el('div',{className:'avatar'});
-  const avatarImg = el('img',{src:'images/profile.jpg',alt:'Profile'});
-  avatar.appendChild(avatarImg);
+  avatar.appendChild(el('img',{src:'images/profile.jpg',alt:'Profile'}));
   const txt = el('div',{});
-  txt.appendChild(el('p',{}, 'Just a girl with a 𝗖𝗮𝗻𝗼𝗻 𝗘𝗢𝗦 𝗠𝟮𝟬𝟬, capturing life’s little quirks ⛶'));
-  txt.appendChild(el('p',{}, '◉ 𝘓𝘦𝘯𝘴𝘦𝘴 : EF-M 15 - 45mm & EF-M 55 - 200mm'));
+  txt.appendChild(el('p',{},'Hi — I’m B. I shoot simple, honest photographs of places and people. I like light, quiet moments, and clean frames.'));
+  txt.appendChild(el('p',{},'Minimal, careful images — tools: Canon EOS M200 with EF-M 15–45mm and EF-M 55–200mm.'));
   ai.appendChild(avatar); ai.appendChild(txt); about.appendChild(ai);
   content.appendChild(about);
 }
 
 function showPortfolio(){
   const content = document.getElementById('content'); content.innerHTML='';
-  const wrap = el('div',{});
   const grid = el('div',{className:'albums-grid'});
   albums.forEach(a=>{
     const card = el('div',{className:'album-card'});
     const thumb = el('div',{className:'album-thumb'});
-    if(a.images && a.images.length){
-      // use first image as cover for consistency
-      const cover = a.images[0];
-      const img = el('img',{src:`images/${a.folder}/${cover.file}`,alt:cover.caption||cover.file});
-      thumb.appendChild(img);
-    } else {
-      thumb.appendChild(el('div',{}, 'No photos'));
-    }
-    const title = el('div',{className:'album-title'});
-    title.appendChild(el('div',{}, a.title));
-    title.appendChild(el('div',{className:'album-count'}, (a.images? a.images.length : 0) + ' photos'));
-    card.appendChild(thumb); card.appendChild(title);
+    const cover = (a.images && a.images.length)? a.images[0] : null;
+    if(cover) thumb.appendChild(el('img',{src:`images/${a.folder}/${cover.file}`,alt:cover.caption||cover.file}));
+    else thumb.appendChild(el('div',{},'No photos'));
+    // overlay center
+    const overlay = el('div',{className:'album-overlay'});
+    const count = (a.images? a.images.length : 0);
+    overlay.appendChild(el('div',{className:'num'}, String(count)));
+    overlay.appendChild(el('div',{className:'rule'}));
+    overlay.appendChild(el('div',{className:'title'}, a.title));
+    card.appendChild(thumb);
+    card.appendChild(overlay);
+    // meta below visually (optional)
+    const meta = el('div',{className:'album-meta'});
+    meta.appendChild(el('div',{},'')); meta.appendChild(el('div',{className:'album-count'}, count + ' photos'));
+    card.appendChild(meta);
     card.onclick = ()=> showAlbum(a.folder);
     grid.appendChild(card);
   });
-  wrap.appendChild(grid);
-  content.appendChild(wrap);
+  content.appendChild(grid);
   setActiveTab('portfolio');
 }
 
 function showAlbum(folder){
   const album = albums.find(a=>a.folder===folder);
+  if(!album) return;
   const content = document.getElementById('content'); content.innerHTML='';
-  const back = el('button',{}, '← Back'); back.style.marginBottom='12px'; back.onclick = ()=>{ setActiveTab('portfolio'); showPortfolio(); };
+  const back = el('button',{},'← Back'); back.style.marginBottom='12px'; back.onclick = ()=>{ setActiveTab('portfolio'); showPortfolio(); };
   content.appendChild(back);
   content.appendChild(el('h2',{}, album.title));
   const g = el('div',{className:'grid'});
-  album.images.forEach((img,ii)=>{
-    const im = el('img',{src:`images/${album.folder}/${img.file}`,alt:img.caption||img.file});
-    im.dataset.album=album.folder; im.dataset.index=ii;
-    im.addEventListener('click', ()=>openLightbox(album.folder, ii));
-    g.appendChild(im);
-  });
+  album.images.forEach((img,ii)=>{ const im = el('img',{src:`images/${album.folder}/${img.file}`,alt:img.caption||img.file}); im.dataset.album=album.folder; im.dataset.index=ii; im.addEventListener('click',()=>openLightbox(album.folder, ii)); g.appendChild(im); });
   content.appendChild(g);
 }
 
 function openLightbox(folder, index){
   const album = albums.find(a=>a.folder===folder);
+  if(!album) return;
   const item = album.images[index];
-  const lb = document.getElementById('lightbox'); const lbimg = document.getElementById('lbimg'); const lbcap = document.getElementById('lbcaption');
+  const lb = document.getElementById('lightbox'), lbimg = document.getElementById('lbimg'), lbcap = document.getElementById('lbcaption');
   lbimg.src = `images/${folder}/${item.file}`; lbcap.textContent = item.caption||''; lb.classList.add('visible'); lb.setAttribute('aria-hidden','false');
 }
 function closeLightbox(){ const lb = document.getElementById('lightbox'); lb.classList.remove('visible'); lb.setAttribute('aria-hidden','true'); }
@@ -303,9 +308,10 @@ function closeLightbox(){ const lb = document.getElementById('lightbox'); lb.cla
 document.getElementById('lightbox').addEventListener('click', closeLightbox);
 
 function setActiveTab(id){
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-home').classList.toggle('active', id==='home');
-  document.getElementById('tab-portfolio').classList.toggle('active', id==='portfolio');
+  document.querySelectorAll('nav button').forEach(b=>{ b.classList.remove('active'); b.classList.add('inactive'); });
+  const homeBtn = document.getElementById('tab-home'), portBtn = document.getElementById('tab-portfolio');
+  if(id==='home'){ homeBtn.classList.add('active'); homeBtn.classList.remove('inactive'); portBtn.classList.remove('active'); portBtn.classList.add('inactive'); }
+  else { portBtn.classList.add('active'); portBtn.classList.remove('inactive'); homeBtn.classList.remove('active'); homeBtn.classList.add('inactive'); }
 }
 
 async function init(){
