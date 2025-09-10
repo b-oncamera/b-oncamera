@@ -9,17 +9,18 @@
   header{padding:22px;text-align:center}
   header p{opacity:.85;margin:6px 0 0}
   .container{max-width:1200px;margin:0 auto;padding:12px}
-  .album{margin:18px 0}
-  .album h2{margin:6px 0 10px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
+  .album{margin:24px 0;border-top:1px solid rgba(255,255,255,0.03);padding-top:18px}
+  .album h2{margin:6px 0 12px;font-size:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
   .grid img{width:100%;height:160px;object-fit:cover;border-radius:6px;cursor:pointer;display:block}
+  .empty{padding:28px;background:rgba(255,255,255,0.02);border-radius:6px;text-align:center;color:#bbb}
   .lightbox-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.92);z-index:999;padding:20px}
   .lightbox-wrap.visible{display:flex}
   .lb-img{max-width:92%;max-height:82%}
   .lb-caption{color:#ddd;margin-top:10px;text-align:center}
   .nav-btn{position:absolute;top:50%;transform:translateY(-50%);font-size:42px;color:#fff;padding:8px 12px;cursor:pointer;user-select:none}
   .nav-left{left:8px} .nav-right{right:8px}
-  footer{padding:14px;text-align:center;opacity:.7}
+  footer{padding:18px;text-align:center;opacity:.7}
   a.link{color:#6fd; text-decoration:none}
   @media (max-width:520px){ .grid img{height:120px} .nav-btn{font-size:34px} }
 </style>
@@ -27,7 +28,7 @@
 <body>
 <header>
   <h1>B on Camera — photography</h1>
-  <p style="opacity:.8">Add images into /images/&lt;folder&gt; and update <strong>albums.json</strong> filenames/captions</p>
+  <p style="opacity:.8">Albums: Nature · City Trails · Animals · Others — Upload images into /images/&lt;folder&gt; and add filenames to <strong>albums.json</strong></p>
 </header>
 
 <div class="container" id="albums"></div>
@@ -60,19 +61,29 @@
     sec.className = 'album';
     const h = document.createElement('h2'); h.textContent = alb.title;
     sec.appendChild(h);
-    const grid = document.createElement('div'); grid.className = 'grid';
-    alb.images.forEach((img, ii)=>{
-      const a = document.createElement('a'); a.href = 'javascript:void(0)';
-      const im = document.createElement('img');
-      im.src = `images/${alb.folder}/${img.file}`;
-      im.alt = img.caption || img.file;
-      im.dataset.albumIndex = ai;
-      im.dataset.imageIndex = ii;
-      im.addEventListener('click', openLightbox);
-      a.appendChild(im);
-      grid.appendChild(a);
-    });
-    sec.appendChild(grid);
+
+    if(!alb.images || alb.images.length === 0){
+      // show friendly empty state
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      empty.innerHTML = `<strong>No photos yet in "${alb.title}".</strong><br>When ready, upload images into <code>/images/${alb.folder}/</code> and add filenames to <code>albums.json</code>.`;
+      sec.appendChild(empty);
+    } else {
+      const grid = document.createElement('div'); grid.className = 'grid';
+      alb.images.forEach((img, ii)=>{
+        const a = document.createElement('a'); a.href = 'javascript:void(0)';
+        const im = document.createElement('img');
+        im.src = `images/${alb.folder}/${img.file}`;
+        im.alt = img.caption || img.file;
+        im.dataset.albumIndex = ai;
+        im.dataset.imageIndex = ii;
+        im.addEventListener('click', openLightbox);
+        a.appendChild(im);
+        grid.appendChild(a);
+      });
+      sec.appendChild(grid);
+    }
+
     container.appendChild(sec);
   });
 
