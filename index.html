@@ -9,10 +9,11 @@
   <link href="https://fonts.cdnfonts.com/css/braven" rel="stylesheet">
   <style>
     :root{
-      --bg-home:#f9f9f7;       /* Home background */
-      --bg-portfolio:#ffffff;  /* Portfolio background */
+      --bg-home:#DBDBDB;        /* requested home background */
+      --bg-portfolio:#ffffff;
       --surface:#ffffff;
-      --about-surface: rgba(34, 34, 34, 0.65); /* darker translucent gray */
+      /* Tungsten-like dark but translucent */
+      --about-surface: rgba(38, 40, 43, 0.56);
       --about-text:#eef2f4;
       --muted:#67706a;
       --text:#111217;
@@ -22,13 +23,14 @@
       --maxw:1100px;
       --radius:12px;
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family:"Braven", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
       color:var(--text);
-      background:var(--bg-home); /* default is home */
-      transition:background 0.4s ease;
+      background:var(--bg-home);
+      transition:background 0.3s ease;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
@@ -39,18 +41,39 @@
       position:sticky; top:0; z-index:40;
       backdrop-filter: blur(6px);
     }
+
     .wrap{max-width:var(--maxw);margin:0 auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
     .brand img{height:36px;width:auto;display:block}
 
+    /* Header tabs styling */
     nav ul{display:flex;gap:18px;list-style:none;padding:0;margin:0}
-    nav button{
+    nav .nav-btn{
       background:none;border:0;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600;
       transition:all .12s ease;font-family:inherit;
       text-transform:uppercase;letter-spacing:4px;font-size:13px;
       border:2px solid transparent;
+      display:inline-block;
     }
-    nav button.inactive{ color:var(--muted); background:transparent; border-color:transparent; }
-    nav button.active{
+    nav .nav-btn.inactive{ color:var(--muted); background:transparent; border-color:transparent; }
+    nav .nav-btn.active{
+      color:var(--text);
+      border-color:rgba(17,18,23,0.12);
+      background:transparent;
+      padding:10px 18px;
+      border-radius:6px;
+      letter-spacing:3.5px;
+    }
+
+    /* We'll reuse the same style for Back button via .nav-like */
+    .nav-like{
+      background:none;border:0;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600;
+      transition:all .12s ease;font-family:inherit;
+      text-transform:uppercase;letter-spacing:4px;font-size:13px;
+      border:2px solid transparent;
+      display:inline-block;margin-bottom:12px;
+    }
+    .nav-like.inactive{ color:var(--muted); background:transparent; border-color:transparent; }
+    .nav-like.active{
       color:var(--text);
       border-color:rgba(17,18,23,0.12);
       background:transparent;
@@ -70,7 +93,7 @@
     .dot{width:10px;height:10px;border-radius:50%;background:rgba(17,18,23,0.12);cursor:pointer}
     .dot.active{box-shadow:0 0 0 4px rgba(17,18,23,0.03), inset 0 0 0 2px rgba(255,255,255,0.6)}
 
-    /* About box */
+    /* About box: tungsten-like translucent */
     .about{
       background:var(--about-surface);
       padding:24px;border-radius:12px;margin:20px auto 0;
@@ -84,32 +107,48 @@
     .about p{margin:0;color:var(--about-text);line-height:1.95;font-size:15px}
     .about p + p{margin-top:16px}
 
-    /* Portfolio */
-    .albums-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;max-width:980px;margin:10px auto}
-    .album-card{
-      position:relative;
-      border-radius:12px;overflow:hidden;
-      cursor:pointer;
-      border:1px solid rgba(17,18,23,0.04);
-      box-shadow: 0 12px 30px rgba(11,12,13,0.04);
-      background:var(--surface);
-      display:block;
-      min-height:360px;
+    /* Portfolio: equal-size 2x2 tiles */
+    .albums-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:28px;
+      max-width:980px;margin:10px auto;
+      grid-auto-rows:360px; /* fixed row height — ensures all tiles same size */
+      align-items:stretch;
     }
-    .album-thumb{width:100%;height:100%;min-height:300px;background:#f2f2f2;display:block}
+    .album-card{
+      position:relative;border-radius:12px;overflow:hidden;
+      cursor:pointer;border:1px solid rgba(17,18,23,0.04);
+      box-shadow:0 12px 30px rgba(11,12,13,0.04);
+      background:var(--surface);display:flex;flex-direction:column;height:100%;
+    }
+    .album-thumb{width:100%;flex:1 1 auto;min-height:0;background:#f2f2f2;display:block}
     .album-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
     .album-card:hover .album-thumb img{transform:scale(1.03)}
 
     .album-overlay{
       position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
       width:44%;max-width:320px;padding:20px;border-radius:6px;
-      background:rgba(255,255,255,0.9);
+      background:rgba(255,255,255,0.92);
       text-align:center;box-shadow:0 8px 24px rgba(11,12,13,0.06);
     }
     .album-overlay img{width:48px;height:48px;object-fit:contain;margin-bottom:10px}
-    .album-overlay .title{font-style:italic;font-size:20px;color:#222}
+    .album-overlay .title{
+      font-style:italic;font-size:20px;color:#222;
+      font-family: "Braven", Inter, sans-serif;
+    }
 
-    /* Album page */
+    /* album page title uses same header button font/weight/spacing */
+    .page-title{
+      font-family: "Braven", Inter, sans-serif;
+      text-transform:uppercase;
+      letter-spacing:4px;
+      font-weight:600;
+      margin:18px 0 12px;
+      font-size:16px;
+    }
+
+    /* Album page grid */
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
     .grid img{width:100%;height:160px;object-fit:cover;border-radius:8px;cursor:pointer}
 
@@ -123,13 +162,13 @@
     /* Responsive */
     @media (max-width:920px){
       .slide{height:360px}
-      .albums-grid{grid-template-columns:repeat(2,1fr)}
+      .albums-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:320px}
       .about-inner{flex-direction:row}
       .album-overlay{width:56%}
     }
     @media (max-width:720px){
       .slide{height:280px}
-      .albums-grid{grid-template-columns:1fr}
+      .albums-grid{grid-template-columns:1fr;grid-auto-rows:auto}
       .about-inner{flex-direction:row}
       .about{padding:16px}
       .avatar{width:80px;height:80px;flex:0 0 80px}
@@ -146,8 +185,8 @@
       </div>
       <nav>
         <ul>
-          <li><button id="tab-home" class="active">Home</button></li>
-          <li><button id="tab-portfolio" class="">Portfolio</button></li>
+          <li><button id="tab-home" class="nav-btn active">Home</button></li>
+          <li><button id="tab-portfolio" class="nav-btn inactive">Portfolio</button></li>
         </ul>
       </nav>
     </div>
@@ -165,6 +204,7 @@
   <footer>b_oncamera</footer>
 
 <script>
+/* app logic */
 let albums = [];
 async function loadAlbums(){
   try{
@@ -177,7 +217,6 @@ async function loadAlbums(){
   }
 }
 function el(tag, opts={}, ...kids){ const e=document.createElement(tag); Object.assign(e, opts); for(const k of kids) if(typeof k==='string') e.appendChild(document.createTextNode(k)); else if(k) e.appendChild(k); return e; }
-function randItem(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
 const SLIDES = [
   {folder:'nature', file:'N_37.jpg'},
@@ -210,6 +249,7 @@ function showHome(){
     imgTest.onerror = ()=>{ done++; if(done===covers.length) start(existing); };
     imgTest.src = `images/${c.album.folder}/${c.item.file}`;
   });
+
   if(covers.length===0){ slide.appendChild(el('div',{},'No photos yet.')); content.appendChild(slideWrap); addAbout(content); setActiveTab('home'); return; }
 
   function start(arr){
@@ -222,9 +262,9 @@ function showHome(){
       arr.forEach((_,idx)=>{ const d=el('div',{className:'dot' + (idx===i?' active':'')}); d.onclick=()=>{ i=idx; render(); }; controls.appendChild(d); });
     }
     render();
-    let t = setInterval(()=>{ i=(i+1)%arr.length; render(); },3200); // faster
+    let t = setInterval(()=>{ i=(i+1)%arr.length; render(); },1000); // much faster (1s)
     slideWrap.addEventListener('mouseenter',()=>clearInterval(t));
-    slideWrap.addEventListener('mouseleave',()=>{ t=setInterval(()=>{ i=(i+1)%arr.length; render(); },3200); });
+    slideWrap.addEventListener('mouseleave',()=>{ t=setInterval(()=>{ i=(i+1)%arr.length; render(); },1000); });
     content.appendChild(slideWrap);
     addAbout(content);
     setActiveTab('home');
@@ -247,6 +287,12 @@ function showPortfolio(){
   document.body.style.background = "var(--bg-portfolio)";
   const content = document.getElementById('content'); content.innerHTML='';
   const grid = el('div',{className:'albums-grid'});
+  const iconMap = {
+    "nature":"nature.png",
+    "city-trails":"city.png",
+    "animals":"animals.png",
+    "others":"others.png"
+  };
   albums.forEach(a=>{
     const card = el('div',{className:'album-card'});
     const thumb = el('div',{className:'album-thumb'});
@@ -255,17 +301,10 @@ function showPortfolio(){
     else thumb.appendChild(el('div',{},'No photos'));
 
     const overlay = el('div',{className:'album-overlay'});
-    const iconMap = {
-      "nature":"nature.png",
-      "city-trails":"city.png",
-      "animals":"animals.png",
-      "others":"others.png"
-    };
     if(iconMap[a.folder]) overlay.appendChild(el('img',{src:`images/${iconMap[a.folder]}`,alt:a.title+" icon"}));
     overlay.appendChild(el('div',{className:'title'}, a.title));
     card.appendChild(thumb);
     card.appendChild(overlay);
-
     card.onclick = ()=> showAlbum(a.folder);
     grid.appendChild(card);
   });
@@ -278,19 +317,21 @@ function showAlbum(folder){
   const album = albums.find(a=>a.folder===folder);
   if(!album) return;
   const content = document.getElementById('content'); content.innerHTML='';
-  const back = el('button',{className:'inactive'},'← Back'); 
+  // back button styled like header buttons (active look)
+  const back = el('button',{className:'nav-like active'},'← Back');
   back.onclick = ()=>{ setActiveTab('portfolio'); showPortfolio(); };
   content.appendChild(back);
-  const title = el('h2',{}, album.title);
-  title.style.fontFamily = '"Braven", Inter, sans-serif';
-  title.style.textTransform = "uppercase";
+
+  // album title styled like header buttons
+  const title = el('h2',{className:'page-title'}, album.title);
   content.appendChild(title);
+
   const g = el('div',{className:'grid'});
-  album.images.forEach((img,ii)=>{ 
-    const im = el('img',{src:`images/${album.folder}/${img.file}`,alt:img.caption||img.file}); 
-    im.dataset.album=album.folder; im.dataset.index=ii; 
-    im.addEventListener('click',()=>openLightbox(album.folder, ii)); 
-    g.appendChild(im); 
+  album.images.forEach((img,ii)=>{
+    const im = el('img',{src:`images/${album.folder}/${img.file}`,alt:img.caption||img.file});
+    im.dataset.album=album.folder; im.dataset.index=ii;
+    im.addEventListener('click', ()=>openLightbox(album.folder, ii));
+    g.appendChild(im);
   });
   content.appendChild(g);
 }
@@ -306,7 +347,8 @@ function closeLightbox(){ const lb = document.getElementById('lightbox'); lb.cla
 document.getElementById('lightbox').addEventListener('click', closeLightbox);
 
 function setActiveTab(id){
-  document.querySelectorAll('nav button').forEach(b=>{ b.classList.remove('active'); b.classList.add('inactive'); });
+  // header tab visuals
+  document.querySelectorAll('nav .nav-btn').forEach(b=>{ b.classList.remove('active'); b.classList.add('inactive'); });
   const homeBtn = document.getElementById('tab-home'), portBtn = document.getElementById('tab-portfolio');
   if(id==='home'){ homeBtn.classList.add('active'); homeBtn.classList.remove('inactive'); portBtn.classList.remove('active'); portBtn.classList.add('inactive'); }
   else { portBtn.classList.add('active'); portBtn.classList.remove('inactive'); homeBtn.classList.remove('active'); homeBtn.classList.add('inactive'); }
