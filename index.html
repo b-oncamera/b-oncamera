@@ -1,133 +1,203 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>B on Camera — photography</title>
-<style>
-  body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:0;background:#0f1113;color:#fff}
-  header{padding:22px;text-align:center}
-  header p{opacity:.85;margin:6px 0 0}
-  .container{max-width:1200px;margin:0 auto;padding:12px}
-  .album{margin:24px 0;border-top:1px solid rgba(255,255,255,0.03);padding-top:18px}
-  .album h2{margin:6px 0 12px;font-size:20px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
-  .grid img{width:100%;height:160px;object-fit:cover;border-radius:6px;cursor:pointer;display:block}
-  .empty{padding:28px;background:rgba(255,255,255,0.02);border-radius:6px;text-align:center;color:#bbb}
-  .lightbox-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.92);z-index:999;padding:20px}
-  .lightbox-wrap.visible{display:flex}
-  .lb-img{max-width:92%;max-height:82%}
-  .lb-caption{color:#ddd;margin-top:10px;text-align:center}
-  .nav-btn{position:absolute;top:50%;transform:translateY(-50%);font-size:42px;color:#fff;padding:8px 12px;cursor:pointer;user-select:none}
-  .nav-left{left:8px} .nav-right{right:8px}
-  footer{padding:18px;text-align:center;opacity:.7}
-  a.link{color:#6fd; text-decoration:none}
-  @media (max-width:520px){ .grid img{height:120px} .nav-btn{font-size:34px} }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>B on Camera — Minimal Portfolio</title>
+  <meta name="description" content="Minimalist photography portfolio - B on Camera" />
+  <style>
+    :root{
+      --bg:#0f1113; --surface:#0b0c0d; --muted:#9aa0a6; --accent:#6fd; --gap:18px; 
+      --maxw:1100px; --radius:10px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;color:#e9eef2;background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    header{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);backdrop-filter:blur(2px);border-bottom:1px solid rgba(255,255,255,0.03)}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:20px}
+    .nav{display:flex;align-items:center;gap:16px;justify-content:space-between}
+    .brand{font-weight:700;letter-spacing:0.2px}
+    nav ul{display:flex;gap:12px;list-style:none;padding:0;margin:0}
+    nav button{background:none;border:0;color:var(--muted);padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}
+    nav button.active{color:var(--accent);background:rgba(111,221,204,0.04)}
+
+    main{padding:30px 20px}
+    .section{max-width:var(--maxw);margin:0 auto;padding:0 12px}
+
+    /* Home layout */
+    .home-grid{display:grid;grid-template-columns:1fr 360px;gap:var(--gap);align-items:start}
+    .slideshow{position:relative;border-radius:12px;overflow:hidden;background:#0b0c0d;border:1px solid rgba(255,255,255,0.03)}
+    .slide{width:100%;height:420px;display:flex;align-items:center;justify-content:center}
+    .slide img{width:100%;height:100%;object-fit:cover}
+    .slide .overlay{position:absolute;left:12px;bottom:12px;padding:8px 12px;background:rgba(0,0,0,0.45);border-radius:8px;color:#fff;font-size:13px}
+    .slideshow .controls{position:absolute;right:10px;top:10px;display:flex;gap:6px}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.12)}
+    .dot.active{background:var(--accent)}
+
+    .about{background:rgba(255,255,255,0.02);padding:16px;border-radius:12px}
+    .about-inner{display:flex;gap:12px;align-items:center}
+    .avatar{width:88px;height:88px;border-radius:999px;overflow:hidden;flex:0 0 88px;border:2px solid rgba(255,255,255,0.04)}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    .about p{margin:0;color:var(--muted);line-height:1.5}
+
+    /* Portfolio layout */
+    .albums-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .album-card{background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+    .album-thumb{width:100%;height:160px;border-radius:8px;overflow:hidden;background:#060606}
+    .album-thumb img{width:100%;height:100%;object-fit:cover}
+    .album-title{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-weight:700}
+    .album-count{color:var(--muted);font-size:13px;font-weight:600}
+
+    /* Album page */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+    .grid img{width:100%;height:160px;object-fit:cover;border-radius:8px;cursor:pointer}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,0.9);z-index:9999}
+    .lightbox.visible{display:grid}
+    .lightbox img{max-width:92%;max-height:86%}
+
+    footer{padding:26px 0;text-align:center;color:var(--muted)}
+
+    @media (max-width:900px){.home-grid{grid-template-columns:1fr;}.slideshow .slide{height:300px}.about{margin-top:10px}}
+  </style>
 </head>
 <body>
-<header>
-  <h1>B on Camera — photography</h1>
-  <p style="opacity:.8">Albums: Nature · City Trails · Animals · Others — Upload images into /images/&lt;folder&gt; and add filenames to <strong>albums.json</strong></p>
-</header>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">B on Camera</div>
+      <nav>
+        <ul>
+          <li><button id="tab-home" class="active">Home</button></li>
+          <li><button id="tab-portfolio">Portfolio</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-<div class="container" id="albums"></div>
+  <main>
+    <div id="content" class="section"></div>
+  </main>
 
-<!-- Lightbox -->
-<div id="lightbox" class="lightbox-wrap" tabindex="-1" aria-hidden="true">
-  <div class="nav-btn nav-left" id="prevBtn">&#9664;</div>
-  <div style="text-align:center;max-width:95%;">
-    <img id="lbImg" class="lb-img" src="" alt="">
-    <div id="lbCaption" class="lb-caption"></div>
-  </div>
-  <div class="nav-btn nav-right" id="nextBtn">&#9654;</div>
-</div>
-
-<footer>b_oncamera • Portfolio</footer>
+  <div id="lightbox" class="lightbox" role="dialog" aria-hidden="true"><img id="lbimg" src="" alt=""><div id="lbcaption" style="color:#ddd;margin-top:12px;text-align:center"></div></div>
+  <footer>Minimalist portfolio • B on Camera</footer>
 
 <script>
-(async function(){
-  // load albums.json
+// Minimal SPA using albums.json
+let albums = [];
+async function loadAlbums(){
   const res = await fetch('albums.json');
-  if(!res.ok){
-    document.getElementById('albums').innerText = 'albums.json not found. Make sure albums.json is in the repo root.';
-    return;
-  }
-  const albums = await res.json();
-  const container = document.getElementById('albums');
+  albums = await res.json();
+}
 
-  albums.forEach((alb, ai)=>{
-    const sec = document.createElement('section');
-    sec.className = 'album';
-    const h = document.createElement('h2'); h.textContent = alb.title;
-    sec.appendChild(h);
+function el(tag, opts={}, ...kids){ const e = document.createElement(tag); Object.assign(e, opts); for(const k of kids) if(typeof k === 'string') e.appendChild(document.createTextNode(k)); else if(k) e.appendChild(k); return e; }
 
-    if(!alb.images || alb.images.length === 0){
-      // show friendly empty state
-      const empty = document.createElement('div');
-      empty.className = 'empty';
-      empty.innerHTML = `<strong>No photos yet in "${alb.title}".</strong><br>When ready, upload images into <code>/images/${alb.folder}/</code> and add filenames to <code>albums.json</code>.`;
-      sec.appendChild(empty);
-    } else {
-      const grid = document.createElement('div'); grid.className = 'grid';
-      alb.images.forEach((img, ii)=>{
-        const a = document.createElement('a'); a.href = 'javascript:void(0)';
-        const im = document.createElement('img');
-        im.src = `images/${alb.folder}/${img.file}`;
-        im.alt = img.caption || img.file;
-        im.dataset.albumIndex = ai;
-        im.dataset.imageIndex = ii;
-        im.addEventListener('click', openLightbox);
-        a.appendChild(im);
-        grid.appendChild(a);
-      });
-      sec.appendChild(grid);
+function randItem(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function showHome(){
+  const content = document.getElementById('content'); content.innerHTML='';
+  const home = el('div',{className:'home-grid'});
+  // left: slideshow
+  const slideWrap = el('div',{className:'slideshow'});
+  const slide = el('div',{className:'slide'});
+  slideWrap.appendChild(slide);
+  const controls = el('div',{className:'controls'});
+  controls.style.position='absolute'; controls.style.right='12px'; controls.style.top='12px';
+  slideWrap.appendChild(controls);
+
+  // choose one random image per album (if present)
+  const covers = [];
+  albums.forEach(a=>{ if(a.images && a.images.length) covers.push({album:a, item:randItem(a.images)}); });
+  if(covers.length===0){ slide.appendChild(el('div',{}, 'No photos yet.')); }
+  else{
+    let i=0;
+    function render(){
+      const imgSrc = `images/${covers[i].album.folder}/${covers[i].item.file}`;
+      slide.innerHTML = ''; const img = el('img',{src:imgSrc, alt:covers[i].item.caption||covers[i].item.file});
+      slide.appendChild(img);
+      const overlay = el('div',{className:'overlay'}, `${covers[i].album.title}`);
+      overlay.style.position='absolute'; overlay.style.left='12px'; overlay.style.bottom='12px';
+      slideWrap.appendChild(overlay);
+      // dots
+      controls.innerHTML='';
+      covers.forEach((c,idx)=>{ const d = el('div',{className:'dot' + (idx===i?' active':'' )}); d.style.margin='4px'; d.style.width='10px'; d.style.height='10px'; d.style.borderRadius='50%'; d.style.display='inline-block'; if(idx===i) d.classList.add('active'); d.onclick=()=>{ i=idx; render(); }; controls.appendChild(d); });
     }
-
-    container.appendChild(sec);
-  });
-
-  // Lightbox logic
-  const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg'), lbCaption = document.getElementById('lbCaption');
-  let current = {a:0,i:0};
-
-  function show(a,i){
-    const alb = albums[a];
-    const item = alb.images[i];
-    lbImg.src = `images/${alb.folder}/${item.file}`;
-    lbImg.alt = item.caption || item.file;
-    lbCaption.textContent = item.caption || '';
-    current = {a,i};
-    lb.classList.add('visible');
-    lb.setAttribute('aria-hidden','false');
-  }
-  function close(){ lb.classList.remove('visible'); lb.setAttribute('aria-hidden','true'); }
-
-  function openLightbox(e){ 
-    const ai = Number(e.target.dataset.albumIndex), ii = Number(e.target.dataset.imageIndex);
-    show(ai, ii);
+    render();
+    // auto cycle
+    let timer = setInterval(()=>{ i=(i+1)%covers.length; render(); },4000);
+    slideWrap.addEventListener('mouseenter', ()=>clearInterval(timer));
+    slideWrap.addEventListener('mouseleave', ()=>{ timer = setInterval(()=>{ i=(i+1)%covers.length; render(); },4000); });
   }
 
-  document.getElementById('prevBtn').addEventListener('click', ()=>{
-    let {a,i} = current; i--; if(i<0){ a = (a-1+albums.length)%albums.length; i = albums[a].images.length - 1; }
-    show(a,i);
-  });
-  document.getElementById('nextBtn').addEventListener('click', ()=>{
-    let {a,i} = current; i++; if(i>=albums[a].images.length){ a = (a+1)%albums.length; i = 0; }
-    show(a,i);
-  });
+  // right: about
+  const about = el('aside',{className:'about'});
+  const ai = el('div',{className:'about-inner'});
+  const avatar = el('div',{className:'avatar'});
+  const avatarImg = el('img',{src:'images/profile.jpg',alt:'Profile'});
+  avatar.appendChild(avatarImg);
+  const txt = el('div',{});
+  txt.appendChild(el('p',{}, 'Just a girl with a 𝗖𝗮𝗻𝗼𝗻 𝗘𝗢𝗦 𝗠𝟮𝟬𝟬, capturing life’s little quirks ⛶
+                                        ◉ 𝘓𝘦𝘯𝘴𝘦𝘴 : EF-M 15 - 45mm & EF-M 55 - 200mm')); 
+  txt.appendChild(el('p',{}, 'Minimal, honest images.'));
+  ai.appendChild(avatar); ai.appendChild(txt); about.appendChild(ai);
 
-  lb.addEventListener('click', (ev)=>{
-    if(ev.target === lb) close();
+  home.appendChild(slideWrap); home.appendChild(about);
+  content.appendChild(home);
+}
+
+function showPortfolio(){
+  const content = document.getElementById('content'); content.innerHTML='';
+  const wrap = el('div',{});
+  const grid = el('div',{className:'albums-grid'});
+  albums.forEach(a=>{
+    const card = el('div',{className:'album-card'});
+    const thumb = el('div',{className:'album-thumb'});
+    if(a.images && a.images.length){ const cover = randItem(a.images); const img = el('img',{src:`images/${a.folder}/${cover.file}`,alt:cover.caption||cover.file}); thumb.appendChild(img); }
+    else{ thumb.appendChild(el('div',{}, 'No photos')); }
+    const title = el('div',{className:'album-title'});
+    title.appendChild(el('div',{}, a.title));
+    title.appendChild(el('div',{className:'album-count'}, (a.images? a.images.length : 0) + ' photos'));
+    card.appendChild(thumb); card.appendChild(title);
+    card.onclick = ()=> showAlbum(a.folder);
+    grid.appendChild(card);
   });
-  document.addEventListener('keydown', (ev)=>{
-    if(lb.classList.contains('visible')){
-      if(ev.key==='Escape') close();
-      if(ev.key==='ArrowLeft') document.getElementById('prevBtn').click();
-      if(ev.key==='ArrowRight') document.getElementById('nextBtn').click();
-    }
-  });
-})();
+  wrap.appendChild(grid);
+  content.appendChild(wrap);
+}
+
+function showAlbum(folder){
+  const album = albums.find(a=>a.folder===folder);
+  const content = document.getElementById('content'); content.innerHTML='';
+  const back = el('button',{}, '← Back'); back.style.marginBottom='12px'; back.onclick = ()=>{ setActiveTab('portfolio'); showPortfolio(); };
+  content.appendChild(back);
+  content.appendChild(el('h2',{}, album.title));
+  const g = el('div',{className:'grid'});
+  album.images.forEach((img,ii)=>{ const im = el('img',{src:`images/${album.folder}/${img.file}`,alt:img.caption||img.file}); im.dataset.album=album.folder; im.dataset.index=ii; im.addEventListener('click', ()=>openLightbox(album.folder, ii)); g.appendChild(im); });
+  content.appendChild(g);
+}
+
+function openLightbox(folder, index){
+  const album = albums.find(a=>a.folder===folder);
+  const item = album.images[index];
+  const lb = document.getElementById('lightbox'); const lbimg = document.getElementById('lbimg'); const lbcap = document.getElementById('lbcaption');
+  lbimg.src = `images/${folder}/${item.file}`; lbcap.textContent = item.caption||''; lb.classList.add('visible'); lb.setAttribute('aria-hidden','false');
+}
+
+function closeLightbox(){ const lb = document.getElementById('lightbox'); lb.classList.remove('visible'); lb.setAttribute('aria-hidden','true'); }
+
+document.getElementById('lightbox').addEventListener('click', closeLightbox);
+
+function setActiveTab(id){ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active')); document.getElementById('tab-home').classList.toggle('active', id==='home'); document.getElementById('tab-portfolio').classList.toggle('active', id==='portfolio'); }
+
+async function init(){ await loadAlbums(); // default to home
+  document.getElementById('tab-home').addEventListener('click', ()=>{ setActiveTab('home'); showHome(); history.pushState({},'', '#home'); });
+  document.getElementById('tab-portfolio').addEventListener('click', ()=>{ setActiveTab('portfolio'); showPortfolio(); history.pushState({},'', '#portfolio'); });
+
+  const hash = location.hash.replace('#',''); if(hash && hash.startsWith('album/')){ const folder = hash.split('/')[1]; setActiveTab('portfolio'); showAlbum(folder); }
+  else if(hash==='portfolio'){ setActiveTab('portfolio'); showPortfolio(); } else { setActiveTab('home'); showHome(); }
+}
+
+init();
 </script>
 </body>
 </html>
