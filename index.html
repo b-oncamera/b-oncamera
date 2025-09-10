@@ -12,7 +12,7 @@
       --bg-home:#DBDBDB;        /* requested home background */
       --bg-portfolio:#ffffff;
       --surface:#ffffff;
-      --about-surface: rgb(38, 40, 43);
+      --about-surface: rgba(38, 40, 43, 0.06);
       --about-text:#eef2f4;
       --muted:#67706a;
       --text:#111217;
@@ -261,7 +261,7 @@ function showHome(){
       arr.forEach((_,idx)=>{ const d=el('div',{className:'dot' + (idx===i?' active':'')}); d.onclick=()=>{ i=idx; render(); }; controls.appendChild(d); });
     }
     render();
-    let t = setInterval(()=>{ i=(i+1)%arr.length; render(); },1000); // much faster (1s)
+    let t = setInterval(()=>{ i=(i+1)%arr.length; render(); },2000); 
     slideWrap.addEventListener('mouseenter',()=>clearInterval(t));
     slideWrap.addEventListener('mouseleave',()=>{ t=setInterval(()=>{ i=(i+1)%arr.length; render(); },1000); });
     content.appendChild(slideWrap);
