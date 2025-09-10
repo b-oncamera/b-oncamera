@@ -9,10 +9,10 @@
   <link href="https://fonts.cdnfonts.com/css/braven" rel="stylesheet">
   <style>
     :root{
-      --bg-home:#DBDBDB;        /* requested home background */
+      --bg-home:#DBDBDB;        
       --bg-portfolio:#ffffff;
       --surface:#ffffff;
-      --about-surface: rgba(38, 40, 43, 0.85);
+      --about-surface: rgb(26, 37, 46);
       --about-text:#eef2f4;
       --muted:#67706a;
       --text:#111217;
@@ -63,7 +63,6 @@
       letter-spacing:3.5px;
     }
 
-    /* We'll reuse the same style for Back button via .nav-like */
     .nav-like{
       background:none;border:0;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600;
       transition:all .12s ease;font-family:inherit;
@@ -92,7 +91,6 @@
     .dot{width:10px;height:10px;border-radius:50%;background:rgba(17,18,23,0.12);cursor:pointer}
     .dot.active{box-shadow:0 0 0 4px rgba(17,18,23,0.03), inset 0 0 0 2px rgba(255,255,255,0.6)}
 
-    /* About box: tungsten-like translucent */
     .about{
       background:var(--about-surface);
       padding:24px;border-radius:12px;margin:20px auto 0;
@@ -106,13 +104,12 @@
     .about p{margin:0;color:var(--about-text);line-height:1.95;font-size:15px}
     .about p + p{margin-top:16px}
 
-    /* Portfolio: equal-size 2x2 tiles */
     .albums-grid{
       display:grid;
       grid-template-columns:repeat(2,1fr);
       gap:28px;
       max-width:980px;margin:10px auto;
-      grid-auto-rows:360px; /* fixed row height — ensures all tiles same size */
+      grid-auto-rows:360px; 
       align-items:stretch;
     }
     .album-card{
@@ -137,7 +134,6 @@
       font-family: "Braven", Inter, sans-serif;
     }
 
-    /* album page title uses same header button font/weight/spacing */
     .page-title{
       font-family: "Braven", Inter, sans-serif;
       text-transform:uppercase;
@@ -147,11 +143,9 @@
       font-size:16px;
     }
 
-    /* Album page grid */
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
     .grid img{width:100%;height:160px;object-fit:cover;border-radius:8px;cursor:pointer}
 
-    /* Lightbox */
     .lightbox{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,0.85);z-index:9999}
     .lightbox.visible{display:grid}
     .lightbox img{max-width:92%;max-height:86%}
@@ -217,6 +211,16 @@ async function loadAlbums(){
 }
 function el(tag, opts={}, ...kids){ const e=document.createElement(tag); Object.assign(e, opts); for(const k of kids) if(typeof k==='string') e.appendChild(document.createTextNode(k)); else if(k) e.appendChild(k); return e; }
 
+/* Slideshow timer control */
+const SLIDE_INTERVAL = 2000; 
+let SLIDE_TIMER = null;
+function stopSlideTimer(){
+  if(SLIDE_TIMER){
+    clearInterval(SLIDE_TIMER);
+    SLIDE_TIMER = null;
+  }
+}
+
 const SLIDES = [
   {folder:'nature', file:'N_37.jpg'},
   {folder:'city-trails', file:'C_04.jpg'},
@@ -225,6 +229,8 @@ const SLIDES = [
 ];
 
 function showHome(){
+  stopSlideTimer();
+
   document.body.style.background = "var(--bg-home)";
   const content = document.getElementById('content'); content.innerHTML='';
   const slideWrap = el('div',{className:'slideshow'});
@@ -258,12 +264,32 @@ function showHome(){
       const src = `images/${arr[i].album.folder}/${arr[i].item.file}`;
       slide.innerHTML=''; slide.appendChild(el('img',{src:src,alt:arr[i].item.file}));
       controls.innerHTML='';
-      arr.forEach((_,idx)=>{ const d=el('div',{className:'dot' + (idx===i?' active':'')}); d.onclick=()=>{ i=idx; render(); }; controls.appendChild(d); });
+      arr.forEach((_,idx)=>{
+        const d=el('div',{className:'dot' + (idx===i?' active':'')});
+        d.onclick=()=>{ i=idx; render(); };
+        controls.appendChild(d);
+      });
     }
+
+    function startTimer(){
+      if(SLIDE_TIMER){
+        clearInterval(SLIDE_TIMER);
+        SLIDE_TIMER = null;
+      }
+      SLIDE_TIMER = setInterval(()=>{ i = (i+1) % arr.length; render(); }, SLIDE_INTERVAL);
+    }
+
     render();
-    let t = setInterval(()=>{ i=(i+1)%arr.length; render(); },2000); 
-    slideWrap.addEventListener('mouseenter',()=>clearInterval(t));
-    slideWrap.addEventListener('mouseleave',()=>{ t=setInterval(()=>{ i=(i+1)%arr.length; render(); },1000); });
+    startTimer();
+
+    slideWrap.addEventListener('mouseenter', ()=>{
+      if(SLIDE_TIMER){ clearInterval(SLIDE_TIMER); SLIDE_TIMER = null; }
+    });
+
+    slideWrap.addEventListener('mouseleave', ()=>{
+      if(!SLIDE_TIMER) startTimer();
+    });
+
     content.appendChild(slideWrap);
     addAbout(content);
     setActiveTab('home');
@@ -283,6 +309,8 @@ function addAbout(content){
 }
 
 function showPortfolio(){
+  stopSlideTimer();
+
   document.body.style.background = "var(--bg-portfolio)";
   const content = document.getElementById('content'); content.innerHTML='';
   const grid = el('div',{className:'albums-grid'});
@@ -312,16 +340,16 @@ function showPortfolio(){
 }
 
 function showAlbum(folder){
+  stopSlideTimer();
+
   document.body.style.background = "var(--bg-portfolio)";
   const album = albums.find(a=>a.folder===folder);
   if(!album) return;
   const content = document.getElementById('content'); content.innerHTML='';
-  // back button styled like header buttons (active look)
   const back = el('button',{className:'nav-like active'},'← Back');
   back.onclick = ()=>{ setActiveTab('portfolio'); showPortfolio(); };
   content.appendChild(back);
 
-  // album title styled like header buttons
   const title = el('h2',{className:'page-title'}, album.title);
   content.appendChild(title);
 
@@ -346,7 +374,6 @@ function closeLightbox(){ const lb = document.getElementById('lightbox'); lb.cla
 document.getElementById('lightbox').addEventListener('click', closeLightbox);
 
 function setActiveTab(id){
-  // header tab visuals
   document.querySelectorAll('nav .nav-btn').forEach(b=>{ b.classList.remove('active'); b.classList.add('inactive'); });
   const homeBtn = document.getElementById('tab-home'), portBtn = document.getElementById('tab-portfolio');
   if(id==='home'){ homeBtn.classList.add('active'); homeBtn.classList.remove('inactive'); portBtn.classList.remove('active'); portBtn.classList.add('inactive'); }
