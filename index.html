@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Photography | b_oncamera</title>
   <meta name="description" content="Photography Portfolio" />
+
   <!-- Braven via CDN -->
   <link href="https://fonts.cdnfonts.com/css/braven" rel="stylesheet">
+
   <style>
     :root{
-      --bg-home:#f9f9f9;        
+      --bg-home:#f9f9f9;
       --bg-portfolio:#ffffff;
       --surface:#ffffff;
-      --about-surface: rgb(26, 37, 46);
+      --about-surface:rgb(26, 37, 46);
       --about-text:#eef2f4;
       --muted:#67706a;
       --text:#111217;
@@ -23,7 +25,10 @@
       --radius:12px;
     }
 
-    *{box-sizing:border-box}
+    *{
+      box-sizing:border-box;
+    }
+
     body{
       margin:0;
       font-family:"Braven", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
@@ -33,27 +38,70 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
-    a{color:inherit;text-decoration:none}
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
     header{
       background:transparent;
       border-bottom:1px solid rgba(17,18,23,0.06);
-      position:sticky; top:0; z-index:40;
-      backdrop-filter: blur(6px);
+      position:sticky;
+      top:0;
+      z-index:40;
+      backdrop-filter:blur(6px);
     }
 
-    .wrap{max-width:var(--maxw);margin:0 auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand img{height:36px;width:auto;display:block}
+    .wrap{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:16px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .brand img{
+      height:36px;
+      width:auto;
+      display:block;
+    }
 
     /* Header tabs styling */
-    nav ul{display:flex;gap:18px;list-style:none;padding:0;margin:0}
+
+    nav ul{
+      display:flex;
+      gap:18px;
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+
     nav .nav-btn{
-      background:none;border:0;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600;
-      transition:all .12s ease;font-family:inherit;
-      text-transform:uppercase;letter-spacing:4px;font-size:13px;
+      background:none;
+      border:0;
+      color:var(--muted);
+      padding:6px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      transition:all .12s ease;
+      font-family:inherit;
+      text-transform:uppercase;
+      letter-spacing:4px;
+      font-size:13px;
       border:2px solid transparent;
       display:inline-block;
     }
-    nav .nav-btn.inactive{ color:var(--muted); background:transparent; border-color:transparent; }
+
+    nav .nav-btn.inactive{
+      color:var(--muted);
+      background:transparent;
+      border-color:transparent;
+    }
+
     nav .nav-btn.active{
       color:var(--text);
       border-color:rgba(17,18,23,0.12);
@@ -64,13 +112,29 @@
     }
 
     .nav-like{
-      background:none;border:0;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600;
-      transition:all .12s ease;font-family:inherit;
-      text-transform:uppercase;letter-spacing:4px;font-size:13px;
+      background:none;
+      border:0;
+      color:var(--muted);
+      padding:6px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      transition:all .12s ease;
+      font-family:inherit;
+      text-transform:uppercase;
+      letter-spacing:4px;
+      font-size:13px;
       border:2px solid transparent;
-      display:inline-block;margin-bottom:12px;
+      display:inline-block;
+      margin-bottom:12px;
     }
-    .nav-like.inactive{ color:var(--muted); background:transparent; border-color:transparent; }
+
+    .nav-like.inactive{
+      color:var(--muted);
+      background:transparent;
+      border-color:transparent;
+    }
+
     .nav-like.active{
       color:var(--text);
       border-color:rgba(17,18,23,0.12);
@@ -80,62 +144,187 @@
       letter-spacing:3.5px;
     }
 
-    main{padding:28px 20px}
-    .section{max-width:var(--maxw);margin:0 auto;padding:0 12px}
+    main{
+      padding:28px 20px;
+    }
+
+    .section{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:0 12px;
+    }
 
     /* Slideshow */
-    .slideshow{position:relative;border-radius:12px;overflow:hidden;background:var(--surface);border:1px solid rgba(17,18,23,0.04);box-shadow:0 8px 28px rgba(11,12,13,0.04)}
-    .slide{width:100%;height:520px;display:flex;align-items:center;justify-content:center;background:#efefef}
-    .slide img{width:100%;height:100%;object-fit:cover;display:block}
-    .slideshow .controls{position:absolute;right:12px;top:12px;display:flex;gap:8px;z-index:3;padding:6px}
-    .dot{width:10px;height:10px;border-radius:50%;background:rgba(17,18,23,0.12);cursor:pointer}
-    .dot.active{box-shadow:0 0 0 4px rgba(17,18,23,0.03), inset 0 0 0 2px rgba(255,255,255,0.6)}
+
+    .slideshow{
+      position:relative;
+      border-radius:12px;
+      overflow:hidden;
+      background:var(--surface);
+      border:1px solid rgba(17,18,23,0.04);
+      box-shadow:0 8px 28px rgba(11,12,13,0.04);
+    }
+
+    .slide{
+      width:100%;
+      height:520px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#efefef;
+    }
+
+    .slide img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .slideshow .controls{
+      position:absolute;
+      right:12px;
+      top:12px;
+      display:flex;
+      gap:8px;
+      z-index:3;
+      padding:6px;
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:rgba(17,18,23,0.12);
+      cursor:pointer;
+    }
+
+    .dot.active{
+      box-shadow:
+        0 0 0 4px rgba(17,18,23,0.03),
+        inset 0 0 0 2px rgba(255,255,255,0.6);
+    }
+
+    /* About */
 
     .about{
       background:var(--about-surface);
-      padding:24px;border-radius:12px;margin:20px auto 0;
-      max-width:880px;border:1px solid rgba(255,255,255,0.04);
+      padding:24px;
+      border-radius:12px;
+      margin:20px auto 0;
+      max-width:880px;
+      border:1px solid rgba(255,255,255,0.04);
       color:var(--about-text);
-      backdrop-filter: blur(4px);
+      backdrop-filter:blur(4px);
     }
-    .about-inner{display:flex;gap:20px;align-items:center}
-    .avatar{width:110px;height:110px;border-radius:999px;overflow:hidden;flex:0 0 110px;border:1px solid rgba(255,255,255,0.06)}
-    .avatar img{width:100%;height:100%;object-fit:cover}
-    .about p{margin:0;color:var(--about-text);line-height:1.95;font-size:15px}
-    .about p + p{margin-top:16px}
+
+    .about-inner{
+      display:flex;
+      gap:20px;
+      align-items:center;
+    }
+
+    .avatar{
+      width:110px;
+      height:110px;
+      border-radius:999px;
+      overflow:hidden;
+      flex:0 0 110px;
+      border:1px solid rgba(255,255,255,0.06);
+    }
+
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .about p{
+      margin:0;
+      color:var(--about-text);
+      line-height:1.95;
+      font-size:15px;
+    }
+
+    .about p + p{
+      margin-top:16px;
+    }
+
+    /* Portfolio albums */
 
     .albums-grid{
       display:grid;
       grid-template-columns:repeat(2,1fr);
       gap:28px;
-      max-width:980px;margin:10px auto;
-      grid-auto-rows:360px; 
+      max-width:980px;
+      margin:10px auto;
+      grid-auto-rows:360px;
       align-items:stretch;
     }
+
     .album-card{
-      position:relative;border-radius:12px;overflow:hidden;
-      cursor:pointer;border:1px solid rgba(17,18,23,0.04);
+      position:relative;
+      border-radius:12px;
+      overflow:hidden;
+      cursor:pointer;
+      border:1px solid rgba(17,18,23,0.04);
       box-shadow:0 12px 30px rgba(11,12,13,0.04);
-      background:var(--surface);display:flex;flex-direction:column;height:100%;
+      background:var(--surface);
+      display:flex;
+      flex-direction:column;
+      height:100%;
     }
-    .album-thumb{width:100%;flex:1 1 auto;min-height:0;background:#f2f2f2;display:block}
-    .album-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
-    .album-card:hover .album-thumb img{transform:scale(1.03)}
+
+    .album-thumb{
+      width:100%;
+      flex:1 1 auto;
+      min-height:0;
+      background:#f2f2f2;
+      display:block;
+    }
+
+    .album-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transition:transform .6s ease;
+    }
+
+    .album-card:hover .album-thumb img{
+      transform:scale(1.03);
+    }
 
     .album-overlay{
-      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-      width:44%;max-width:320px;padding:20px;border-radius:6px;
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width:44%;
+      max-width:320px;
+      padding:20px;
+      border-radius:6px;
       background:rgba(255,255,255,0.92);
-      text-align:center;box-shadow:0 8px 24px rgba(11,12,13,0.06);
+      text-align:center;
+      box-shadow:0 8px 24px rgba(11,12,13,0.06);
     }
-    .album-overlay img{width:48px;height:48px;object-fit:contain;margin-bottom:10px}
+
+    .album-overlay img{
+      width:48px;
+      height:48px;
+      object-fit:contain;
+      margin-bottom:10px;
+    }
+
     .album-overlay .title{
-      font-style:italic;font-size:20px;color:#222;
-      font-family: "Braven", Inter, sans-serif;
+      font-style:italic;
+      font-size:20px;
+      color:#222;
+      font-family:"Braven", Inter, sans-serif;
     }
 
     .page-title{
-      font-family: "Braven", Inter, sans-serif;
+      font-family:"Braven", Inter, sans-serif;
       text-transform:uppercase;
       letter-spacing:4px;
       font-weight:600;
@@ -143,301 +332,1293 @@
       font-size:16px;
     }
 
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-    .grid img{width:100%;height:160px;object-fit:cover;border-radius:8px;cursor:pointer}
+    /* Photo grid */
 
-    /*
-      Updated lightbox styles:
-      - allow scrolling when image is taller than viewport
-      - image fits inside viewport while keeping aspect ratio
-      - clicking background (not image) closes
-    */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      gap:12px;
+    }
+
+    .grid img{
+      width:100%;
+      height:160px;
+      object-fit:cover;
+      border-radius:8px;
+      cursor:pointer;
+    }
+
+    /* =========================================================
+       LIGHTBOX
+       ========================================================= */
+
     .lightbox{
       position:fixed;
       inset:0;
       display:none;
       z-index:9999;
-      background:rgba(0,0,0,0.85);
-      overflow:auto; /* allow scrolling on desktop */
-      -webkit-overflow-scrolling: touch;
-      padding:40px; /* spacing around image when centered */
+      background:rgba(0,0,0,0.88);
+      overflow:auto;
+      -webkit-overflow-scrolling:touch;
+      padding:40px;
     }
-    .lightbox.visible{display:block}
+
+    .lightbox.visible{
+      display:block;
+    }
+
     .lightbox .lb-inner{
       min-height:100%;
       display:flex;
       align-items:center;
       justify-content:center;
     }
+
     .lightbox img{
-      max-width:calc(100% - 80px);        /* respect padding */
-      max-height:calc(100vh - 80px);     /* ensure whole image fits if possible */
+      max-width:calc(100% - 80px);
+      max-height:calc(100vh - 80px);
       width:auto;
       height:auto;
       object-fit:contain;
       display:block;
     }
 
-    footer{padding:26px 0;text-align:center;color:var(--muted)}
+    /* NEW: Close button */
+
+    .lightbox-close{
+      position:fixed;
+      top:20px;
+      right:25px;
+      z-index:10001;
+
+      width:46px;
+      height:46px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border:1px solid rgba(255,255,255,0.35);
+      border-radius:50%;
+
+      background:rgba(0,0,0,0.45);
+      color:#fff;
+
+      font-family:Arial, sans-serif;
+      font-size:30px;
+      font-weight:300;
+      line-height:1;
+
+      cursor:pointer;
+
+      transition:
+        background .2s ease,
+        transform .2s ease,
+        border-color .2s ease;
+    }
+
+    .lightbox-close:hover{
+      background:rgba(255,255,255,0.2);
+      border-color:rgba(255,255,255,0.7);
+      transform:scale(1.05);
+    }
+
+    .lightbox-close:active{
+      transform:scale(0.95);
+    }
+
+    .lightbox-close:focus-visible{
+      outline:2px solid #fff;
+      outline-offset:3px;
+    }
+
+    /* Caption */
+
+    #lbcaption{
+      color:#fff;
+      margin-top:12px;
+      text-align:center;
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:18px;
+      z-index:10000;
+      max-width:80%;
+      pointer-events:none;
+    }
+
+    footer{
+      padding:26px 0;
+      text-align:center;
+      color:var(--muted);
+    }
 
     /* Responsive */
+
     @media (max-width:920px){
-      .slide{height:360px}
-      .albums-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:320px}
-      .about-inner{flex-direction:row}
-      .album-overlay{width:56%}
+
+      .slide{
+        height:360px;
+      }
+
+      .albums-grid{
+        grid-template-columns:repeat(2,1fr);
+        grid-auto-rows:320px;
+      }
+
+      .about-inner{
+        flex-direction:row;
+      }
+
+      .album-overlay{
+        width:56%;
+      }
+
+      .lightbox{
+        padding:25px;
+      }
+
+      .lightbox img{
+        max-width:calc(100% - 50px);
+        max-height:calc(100vh - 50px);
+      }
+
+      .lightbox-close{
+        top:15px;
+        right:15px;
+      }
     }
+
     @media (max-width:720px){
-      .slide{height:280px}
-      .albums-grid{grid-template-columns:1fr;grid-auto-rows:auto}
-      .about-inner{flex-direction:row}
-      .about{padding:16px}
-      .avatar{width:80px;height:80px;flex:0 0 80px}
-      .album-thumb{height:220px}
-      .album-overlay{width:70%}
+
+      .slide{
+        height:280px;
+      }
+
+      .albums-grid{
+        grid-template-columns:1fr;
+        grid-auto-rows:auto;
+      }
+
+      .about-inner{
+        flex-direction:row;
+      }
+
+      .about{
+        padding:16px;
+      }
+
+      .avatar{
+        width:80px;
+        height:80px;
+        flex:0 0 80px;
+      }
+
+      .album-thumb{
+        height:220px;
+      }
+
+      .album-overlay{
+        width:70%;
+      }
+
+      .lightbox{
+        padding:15px;
+      }
+
+      .lightbox img{
+        max-width:calc(100% - 20px);
+        max-height:calc(100vh - 30px);
+      }
+
+      .lightbox-close{
+        width:42px;
+        height:42px;
+        top:12px;
+        right:12px;
+        font-size:27px;
+      }
+
+      #lbcaption{
+        bottom:12px;
+        max-width:90%;
+        font-size:14px;
+      }
     }
   </style>
 </head>
+
 <body>
+
   <header>
     <div class="wrap">
+
       <div class="brand">
-        <img src="images/logo.png" alt="logo" onerror="this.style.display='none'">
+        <img
+          src="images/logo.png"
+          alt="logo"
+          onerror="this.style.display='none'"
+        >
       </div>
+
       <nav>
         <ul>
-          <li><button id="tab-home" class="nav-btn active">Home</button></li>
-          <li><button id="tab-portfolio" class="nav-btn inactive">Portfolio</button></li>
+          <li>
+            <button id="tab-home" class="nav-btn active">
+              Home
+            </button>
+          </li>
+
+          <li>
+            <button id="tab-portfolio" class="nav-btn inactive">
+              Portfolio
+            </button>
+          </li>
         </ul>
       </nav>
+
     </div>
   </header>
+
 
   <main>
     <div id="content" class="section"></div>
   </main>
 
-<div id="lightbox" class="lightbox" role="dialog" aria-hidden="true">
 
-  <button id="lightbox-back" class="lightbox-back" type="button">
-    ← Back
-  </button>
+  <!-- =========================================================
+       LIGHTBOX
+       ========================================================= -->
 
-  <div class="lb-inner">
-    <img id="lbimg" src="" alt="">
-  </div>
-  </div>
-    <div id="lbcaption" style="color:#fff;margin-top:12px;text-align:center;position:fixed;left:50%;transform:translateX(-50%);bottom:18px"></div>
+  <div
+    id="lightbox"
+    class="lightbox"
+    role="dialog"
+    aria-hidden="true"
+  >
+
+    <!-- NEW: Close button -->
+    <button
+      id="lightbox-close"
+      class="lightbox-close"
+      type="button"
+      aria-label="Close photo"
+    >
+      ×
+    </button>
+
+    <div class="lb-inner">
+      <img
+        id="lbimg"
+        src=""
+        alt=""
+      >
+    </div>
+
+    <div id="lbcaption"></div>
+
   </div>
 
-  <footer>Photography | b_oncamera</footer>
+
+  <footer>
+    Photography | b_oncamera
+  </footer>
+
 
 <script>
-/* app logic */
-let albums = [];
-async function loadAlbums(){
-  try{
-    const res = await fetch('albums.json');
-    if(!res.ok) throw new Error('albums.json not found');
-    albums = await res.json();
-  }catch(e){
-    albums = [];
-    console.error('Could not load albums.json', e);
-  }
-}
-function el(tag, opts={}, ...kids){ const e=document.createElement(tag); Object.assign(e, opts); for(const k of kids) if(typeof k==='string') e.appendChild(document.createTextNode(k)); else if(k) e.appendChild(k); return e; }
 
-/* Slideshow timer control */
-const SLIDE_INTERVAL = 2000; 
-let SLIDE_TIMER = null;
-function stopSlideTimer(){
-  if(SLIDE_TIMER){
-    clearInterval(SLIDE_TIMER);
-    SLIDE_TIMER = null;
+/* =========================================================
+   APP LOGIC
+   ========================================================= */
+
+let albums = [];
+
+
+/* =========================================================
+   LOAD ALBUMS
+   ========================================================= */
+
+async function loadAlbums(){
+
+  try{
+
+    const res = await fetch('albums.json');
+
+    if(!res.ok){
+      throw new Error('albums.json not found');
+    }
+
+    albums = await res.json();
+
+  }catch(e){
+
+    albums = [];
+
+    console.error(
+      'Could not load albums.json',
+      e
+    );
+
   }
+
 }
+
+
+/* =========================================================
+   ELEMENT CREATOR
+   ========================================================= */
+
+function el(tag, opts={}, ...kids){
+
+  const e = document.createElement(tag);
+
+  Object.assign(e, opts);
+
+  for(const k of kids){
+
+    if(typeof k === 'string'){
+      e.appendChild(
+        document.createTextNode(k)
+      );
+    }
+
+    else if(k){
+      e.appendChild(k);
+    }
+
+  }
+
+  return e;
+
+}
+
+
+/* =========================================================
+   SLIDESHOW TIMER
+   ========================================================= */
+
+const SLIDE_INTERVAL = 2000;
+
+let SLIDE_TIMER = null;
+
+
+function stopSlideTimer(){
+
+  if(SLIDE_TIMER){
+
+    clearInterval(SLIDE_TIMER);
+
+    SLIDE_TIMER = null;
+
+  }
+
+}
+
+
+/* =========================================================
+   HOME SLIDES
+   ========================================================= */
 
 const SLIDES = [
-  {folder:'nature', file:'N_37.jpg'},
-  {folder:'city-trails', file:'C_04.jpg'},
-  {folder:'animals', file:'A_02.jpg'},
-  {folder:'others', file:'O_14.jpg'}
+
+  {
+    folder:'nature',
+    file:'N_37.jpg'
+  },
+
+  {
+    folder:'city-trails',
+    file:'C_04.jpg'
+  },
+
+  {
+    folder:'animals',
+    file:'A_02.jpg'
+  },
+
+  {
+    folder:'others',
+    file:'O_14.jpg'
+  }
+
 ];
 
+
+/* =========================================================
+   SHOW HOME
+   ========================================================= */
+
 function showHome(){
+
   stopSlideTimer();
 
-  document.body.style.background = "var(--bg-home)";
-  const content = document.getElementById('content'); content.innerHTML='';
-  const slideWrap = el('div',{className:'slideshow'});
-  const slide = el('div',{className:'slide'}); slideWrap.appendChild(slide);
-  const controls = el('div',{className:'controls'}); slideWrap.appendChild(controls);
+  document.body.style.background =
+    "var(--bg-home)";
 
-  const covers=[];
+  const content =
+    document.getElementById('content');
+
+  content.innerHTML = '';
+
+
+  const slideWrap =
+    el('div',{
+      className:'slideshow'
+    });
+
+
+  const slide =
+    el('div',{
+      className:'slide'
+    });
+
+  slideWrap.appendChild(slide);
+
+
+  const controls =
+    el('div',{
+      className:'controls'
+    });
+
+  slideWrap.appendChild(controls);
+
+
+  const covers = [];
+
+
   SLIDES.forEach(s=>{
-    const alb = albums.find(a=>a.folder===s.folder);
-    if(alb && alb.images && alb.images.some(i=>i.file===s.file)){
-      covers.push({album:alb, item:{file:s.file}});
-    } else {
-      covers.push({album:{folder:s.folder,title:''}, item:{file:s.file}});
-    }
-  });
 
-  const existing=[]; let done=0;
-  covers.forEach(c=>{
-    const imgTest = new Image();
-    imgTest.onload = ()=>{ existing.push(c); done++; if(done===covers.length) start(existing); };
-    imgTest.onerror = ()=>{ done++; if(done===covers.length) start(existing); };
-    imgTest.src = `images/${c.album.folder}/${c.item.file}`;
-  });
+    const alb =
+      albums.find(
+        a => a.folder === s.folder
+      );
 
-  if(covers.length===0){ slide.appendChild(el('div',{},'No photos yet.')); content.appendChild(slideWrap); addAbout(content); setActiveTab('home'); return; }
 
-  function start(arr){
-    if(arr.length===0){ slide.appendChild(el('div',{},'No photos yet.')); content.appendChild(slideWrap); addAbout(content); setActiveTab('home'); return; }
-    let i=0;
-    function render(){
-      const src = `images/${arr[i].album.folder}/${arr[i].item.file}`;
-      slide.innerHTML=''; slide.appendChild(el('img',{src:src,alt:arr[i].item.file}));
-      controls.innerHTML='';
-      arr.forEach((_,idx)=>{
-        const d=el('div',{className:'dot' + (idx===i?' active':'')});
-        d.onclick=()=>{ i=idx; render(); };
-        controls.appendChild(d);
+    if(
+      alb &&
+      alb.images &&
+      alb.images.some(
+        i => i.file === s.file
+      )
+    ){
+
+      covers.push({
+        album:alb,
+        item:{
+          file:s.file
+        }
       });
+
     }
 
-    function startTimer(){
-      if(SLIDE_TIMER){
-        clearInterval(SLIDE_TIMER);
-        SLIDE_TIMER = null;
+    else{
+
+      covers.push({
+        album:{
+          folder:s.folder,
+          title:''
+        },
+        item:{
+          file:s.file
+        }
+      });
+
+    }
+
+  });
+
+
+  const existing = [];
+
+  let done = 0;
+
+
+  covers.forEach(c=>{
+
+    const imgTest =
+      new Image();
+
+
+    imgTest.onload = ()=>{
+
+      existing.push(c);
+
+      done++;
+
+      if(done === covers.length){
+        start(existing);
       }
-      SLIDE_TIMER = setInterval(()=>{ i = (i+1) % arr.length; render(); }, SLIDE_INTERVAL);
-    }
 
-    render();
-    startTimer();
+    };
 
-    slideWrap.addEventListener('mouseenter', ()=>{
-      if(SLIDE_TIMER){ clearInterval(SLIDE_TIMER); SLIDE_TIMER = null; }
-    });
 
-    slideWrap.addEventListener('mouseleave', ()=>{
-      if(!SLIDE_TIMER) startTimer();
-    });
+    imgTest.onerror = ()=>{
+
+      done++;
+
+      if(done === covers.length){
+        start(existing);
+      }
+
+    };
+
+
+    imgTest.src =
+      `images/${c.album.folder}/${c.item.file}`;
+
+  });
+
+
+  if(covers.length === 0){
+
+    slide.appendChild(
+      el('div',{},'No photos yet.')
+    );
 
     content.appendChild(slideWrap);
+
     addAbout(content);
+
     setActiveTab('home');
+
+    return;
+
   }
+
+
+  function start(arr){
+
+    if(arr.length === 0){
+
+      slide.appendChild(
+        el('div',{},'No photos yet.')
+      );
+
+      content.appendChild(slideWrap);
+
+      addAbout(content);
+
+      setActiveTab('home');
+
+      return;
+
+    }
+
+
+    let i = 0;
+
+
+    function render(){
+
+      const src =
+        `images/${arr[i].album.folder}/${arr[i].item.file}`;
+
+
+      slide.innerHTML = '';
+
+
+      slide.appendChild(
+        el('img',{
+          src:src,
+          alt:arr[i].item.file
+        })
+      );
+
+
+      controls.innerHTML = '';
+
+
+      arr.forEach((_,idx)=>{
+
+        const d =
+          el('div',{
+            className:
+              'dot' +
+              (idx === i ? ' active' : '')
+          });
+
+
+        d.onclick = ()=>{
+
+          i = idx;
+
+          render();
+
+        };
+
+
+        controls.appendChild(d);
+
+      });
+
+    }
+
+
+    function startTimer(){
+
+      if(SLIDE_TIMER){
+
+        clearInterval(SLIDE_TIMER);
+
+        SLIDE_TIMER = null;
+
+      }
+
+
+      SLIDE_TIMER =
+        setInterval(()=>{
+
+          i =
+            (i + 1) % arr.length;
+
+          render();
+
+        },SLIDE_INTERVAL);
+
+    }
+
+
+    render();
+
+    startTimer();
+
+
+    slideWrap.addEventListener(
+      'mouseenter',
+      ()=>{
+
+        if(SLIDE_TIMER){
+
+          clearInterval(SLIDE_TIMER);
+
+          SLIDE_TIMER = null;
+
+        }
+
+      }
+    );
+
+
+    slideWrap.addEventListener(
+      'mouseleave',
+      ()=>{
+
+        if(!SLIDE_TIMER){
+          startTimer();
+        }
+
+      }
+    );
+
+
+    content.appendChild(slideWrap);
+
+    addAbout(content);
+
+    setActiveTab('home');
+
+  }
+
 }
+
+
+/* =========================================================
+   ABOUT SECTION
+   ========================================================= */
 
 function addAbout(content){
-  const about = el('aside',{className:'about'});
-  const ai = el('div',{className:'about-inner'});
-  const avatar = el('div',{className:'avatar'});
-  avatar.appendChild(el('img',{src:'images/profile.jpg',alt:'Profile'}));
-  const txt = el('div',{});
-  txt.appendChild(el('p',{},'Just a girl with a Canon EOS M200, capturing life’s little quirks ⛶'));
-  txt.appendChild(el('p',{},'◉ Lenses: EF-M 15-45mm & EF-M 55-200mm'));
-  ai.appendChild(avatar); ai.appendChild(txt); about.appendChild(ai);
+
+  const about =
+    el('aside',{
+      className:'about'
+    });
+
+
+  const ai =
+    el('div',{
+      className:'about-inner'
+    });
+
+
+  const avatar =
+    el('div',{
+      className:'avatar'
+    });
+
+
+  avatar.appendChild(
+    el('img',{
+      src:'images/profile.jpg',
+      alt:'Profile'
+    })
+  );
+
+
+  const txt =
+    el('div',{});
+
+
+  txt.appendChild(
+    el(
+      'p',
+      {},
+      'Just a girl with a Canon EOS M200, capturing life’s little quirks ⛶'
+    )
+  );
+
+
+  txt.appendChild(
+    el(
+      'p',
+      {},
+      '◉ Lenses: EF-M 15-45mm & EF-M 55-200mm'
+    )
+  );
+
+
+  ai.appendChild(avatar);
+
+  ai.appendChild(txt);
+
+  about.appendChild(ai);
+
   content.appendChild(about);
+
 }
+
+
+/* =========================================================
+   SHOW PORTFOLIO
+   ========================================================= */
 
 function showPortfolio(){
+
   stopSlideTimer();
 
-  document.body.style.background = "var(--bg-portfolio)";
-  const content = document.getElementById('content'); content.innerHTML='';
-  const grid = el('div',{className:'albums-grid'});
-  const iconMap = {
-    "nature":"nature.png",
-    "city-trails":"city.png",
-    "animals":"animals.png",
-    "others":"others.png"
-  };
-  albums.forEach(a=>{
-    const card = el('div',{className:'album-card'});
-    const thumb = el('div',{className:'album-thumb'});
-    const cover = (a.images && a.images.length)? a.images[0] : null;
-    if(cover) thumb.appendChild(el('img',{src:`images/${a.folder}/${cover.file}`,alt:cover.file}));
-    else thumb.appendChild(el('div',{},'No photos'));
+  document.body.style.background =
+    "var(--bg-portfolio)";
 
-    const overlay = el('div',{className:'album-overlay'});
-    if(iconMap[a.folder]) overlay.appendChild(el('img',{src:`images/${iconMap[a.folder]}`,alt:a.title+" icon"}));
-    overlay.appendChild(el('div',{className:'title'}, a.title));
+
+  const content =
+    document.getElementById('content');
+
+  content.innerHTML = '';
+
+
+  const grid =
+    el('div',{
+      className:'albums-grid'
+    });
+
+
+  const iconMap = {
+
+    "nature":"nature.png",
+
+    "city-trails":"city.png",
+
+    "animals":"animals.png",
+
+    "others":"others.png"
+
+  };
+
+
+  albums.forEach(a=>{
+
+    const card =
+      el('div',{
+        className:'album-card'
+      });
+
+
+    const thumb =
+      el('div',{
+        className:'album-thumb'
+      });
+
+
+    const cover =
+      (a.images && a.images.length)
+        ? a.images[0]
+        : null;
+
+
+    if(cover){
+
+      thumb.appendChild(
+        el('img',{
+          src:`images/${a.folder}/${cover.file}`,
+          alt:cover.file
+        })
+      );
+
+    }
+
+    else{
+
+      thumb.appendChild(
+        el('div',{},'No photos')
+      );
+
+    }
+
+
+    const overlay =
+      el('div',{
+        className:'album-overlay'
+      });
+
+
+    if(iconMap[a.folder]){
+
+      overlay.appendChild(
+        el('img',{
+          src:`images/${iconMap[a.folder]}`,
+          alt:a.title + " icon"
+        })
+      );
+
+    }
+
+
+    overlay.appendChild(
+      el(
+        'div',
+        {
+          className:'title'
+        },
+        a.title
+      )
+    );
+
+
     card.appendChild(thumb);
+
     card.appendChild(overlay);
-    card.onclick = ()=> showAlbum(a.folder);
+
+
+    card.onclick =
+      ()=>showAlbum(a.folder);
+
+
     grid.appendChild(card);
+
   });
+
+
   content.appendChild(grid);
+
   setActiveTab('portfolio');
+
 }
+
+
+/* =========================================================
+   SHOW ALBUM
+   ========================================================= */
 
 function showAlbum(folder){
+
   stopSlideTimer();
 
-  document.body.style.background = "var(--bg-portfolio)";
-  const album = albums.find(a=>a.folder===folder);
+  document.body.style.background =
+    "var(--bg-portfolio)";
+
+
+  const album =
+    albums.find(
+      a => a.folder === folder
+    );
+
+
   if(!album) return;
-  const content = document.getElementById('content'); content.innerHTML='';
-  const back = el('button',{className:'nav-like active'},'← Back');
-  back.onclick = ()=>{ setActiveTab('portfolio'); showPortfolio(); };
+
+
+  const content =
+    document.getElementById('content');
+
+  content.innerHTML = '';
+
+
+  const back =
+    el(
+      'button',
+      {
+        className:'nav-like active'
+      },
+      '← Back'
+    );
+
+
+  back.onclick =
+    ()=>{
+      setActiveTab('portfolio');
+      showPortfolio();
+    };
+
+
   content.appendChild(back);
 
-  const title = el('h2',{className:'page-title'}, album.title);
+
+  const title =
+    el(
+      'h2',
+      {
+        className:'page-title'
+      },
+      album.title
+    );
+
+
   content.appendChild(title);
 
-  const g = el('div',{className:'grid'});
-  album.images.forEach((img,ii)=>{
-    const im = el('img',{src:`images/${album.folder}/${img.file}`,alt:img.caption||img.file});
-    im.dataset.album=album.folder; im.dataset.index=ii;
-    im.addEventListener('click', ()=>openLightbox(album.folder, ii));
-    g.appendChild(im);
-  });
+
+  const g =
+    el('div',{
+      className:'grid'
+    });
+
+
+  album.images.forEach(
+    (img,ii)=>{
+
+      const im =
+        el(
+          'img',
+          {
+            src:
+              `images/${album.folder}/${img.file}`,
+            alt:
+              img.caption || img.file
+          }
+        );
+
+
+      im.dataset.album =
+        album.folder;
+
+      im.dataset.index =
+        ii;
+
+
+      im.addEventListener(
+        'click',
+        ()=>{
+          openLightbox(
+            album.folder,
+            ii
+          );
+        }
+      );
+
+
+      g.appendChild(im);
+
+    }
+  );
+
+
   content.appendChild(g);
+
 }
 
-function openLightbox(folder, index){
-  const album = albums.find(a=>a.folder===folder);
+
+/* =========================================================
+   OPEN LIGHTBOX
+   ========================================================= */
+
+function openLightbox(folder,index){
+
+  const album =
+    albums.find(
+      a => a.folder === folder
+    );
+
+
   if(!album) return;
-  const item = album.images[index];
-  const lb = document.getElementById('lightbox'), lbimg = document.getElementById('lbimg'), lbcap = document.getElementById('lbcaption');
-  lbimg.src = `images/${folder}/${item.file}`;
-  lbcap.textContent = item.caption||'';
-  lb.classList.add('visible'); lb.setAttribute('aria-hidden','false');
-  // scroll top so image centered when opened
+
+
+  const item =
+    album.images[index];
+
+
+  const lb =
+    document.getElementById('lightbox');
+
+  const lbimg =
+    document.getElementById('lbimg');
+
+  const lbcap =
+    document.getElementById('lbcaption');
+
+
+  lbimg.src =
+    `images/${folder}/${item.file}`;
+
+
+  lbimg.alt =
+    item.caption || item.file;
+
+
+  lbcap.textContent =
+    item.caption || '';
+
+
+  lb.classList.add('visible');
+
+  lb.setAttribute(
+    'aria-hidden',
+    'false'
+  );
+
+
+  // Prevent the page behind the lightbox from scrolling
+  document.body.style.overflow = 'hidden';
+
+
+  // Scroll lightbox to top
   lb.scrollTop = 0;
+
 }
 
-function closeLightbox(){ 
-  const lb = document.getElementById('lightbox'); 
-  lb.classList.remove('visible'); 
-  lb.setAttribute('aria-hidden','true'); 
-  document.getElementById('lbimg').src = ''; // free memory
+
+/* =========================================================
+   CLOSE LIGHTBOX
+   ========================================================= */
+
+function closeLightbox(){
+
+  const lb =
+    document.getElementById('lightbox');
+
+
+  lb.classList.remove('visible');
+
+
+  lb.setAttribute(
+    'aria-hidden',
+    'true'
+  );
+
+
+  document.getElementById(
+    'lbimg'
+  ).src = '';
+
+
+  // Restore page scrolling
+  document.body.style.overflow = '';
+
 }
-document.getElementById('lightbox').addEventListener('click', (e)=>{
-  if (e.target && e.target.id === 'lightbox') closeLightbox();
-});
+
+
+/* =========================================================
+   LIGHTBOX CLOSE BUTTON
+   ========================================================= */
+
+document
+  .getElementById('lightbox-close')
+  .addEventListener(
+    'click',
+    closeLightbox
+  );
+
+
+/* =========================================================
+   CLICK OUTSIDE IMAGE TO CLOSE
+   ========================================================= */
+
+document
+  .getElementById('lightbox')
+  .addEventListener(
+    'click',
+    (e)=>{
+
+      if(
+        e.target &&
+        e.target.id === 'lightbox'
+      ){
+
+        closeLightbox();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   ESCAPE KEY TO CLOSE
+   ========================================================= */
+
+document.addEventListener(
+  'keydown',
+  (e)=>{
+
+    if(
+      e.key === 'Escape' &&
+      document
+        .getElementById('lightbox')
+        .classList
+        .contains('visible')
+    ){
+
+      closeLightbox();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   ACTIVE NAVIGATION TAB
+   ========================================================= */
 
 function setActiveTab(id){
-  document.querySelectorAll('nav .nav-btn').forEach(b=>{ b.classList.remove('active'); b.classList.add('inactive'); });
-  const homeBtn = document.getElementById('tab-home'), portBtn = document.getElementById('tab-portfolio');
-  if(id==='home'){ homeBtn.classList.add('active'); homeBtn.classList.remove('inactive'); portBtn.classList.remove('active'); portBtn.classList.add('inactive'); }
-  else { portBtn.classList.add('active'); portBtn.classList.remove('inactive'); homeBtn.classList.remove('active'); homeBtn.classList.add('inactive'); }
+
+  document
+    .querySelectorAll(
+      'nav .nav-btn'
+    )
+    .forEach(b=>{
+
+      b.classList.remove('active');
+
+      b.classList.add('inactive');
+
+    });
+
+
+  const homeBtn =
+    document.getElementById(
+      'tab-home'
+    );
+
+
+  const portBtn =
+    document.getElementById(
+      'tab-portfolio'
+    );
+
+
+  if(id === 'home'){
+
+    homeBtn.classList.add('active');
+
+    homeBtn.classList.remove('inactive');
+
+    portBtn.classList.remove('active');
+
+    portBtn.classList.add('inactive');
+
+  }
+
+  else{
+
+    portBtn.classList.add('active');
+
+    portBtn.classList.remove('inactive');
+
+    homeBtn.classList.remove('active');
+
+    homeBtn.classList.add('inactive');
+
+  }
+
 }
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
 
 async function init(){
-  await loadAlbums();
-  document.getElementById('tab-home').addEventListener('click', ()=>{ setActiveTab('home'); showHome(); history.pushState({},'', '#home'); });
-  document.getElementById('tab-portfolio').addEventListener('click', ()=>{ setActiveTab('portfolio'); showPortfolio(); history.pushState({},'', '#portfolio'); });
 
-  const hash = location.hash.replace('#','');
-  if(hash && hash.startsWith('album/')){ const folder = hash.split('/')[1]; setActiveTab('portfolio'); showAlbum(folder); }
-  else if(hash==='portfolio'){ setActiveTab('portfolio'); showPortfolio(); } else { setActiveTab('home'); showHome(); }
+  await loadAlbums();
+
+
+  document
+    .getElementById('tab-home')
+    .addEventListener(
+      'click',
+      ()=>{
+
+        setActiveTab('home');
+
+        showHome();
+
+        history.pushState(
+          {},
+          '',
+          '#home'
+        );
+
+      }
+    );
+
+
+  document
+    .getElementById('tab-portfolio')
+    .addEventListener(
+      'click',
+      ()=>{
+
+        setActiveTab('portfolio');
+
+        showPortfolio();
+
+        history.pushState(
+          {},
+          '',
+          '#portfolio'
+        );
+
+      }
+    );
+
+
+  const hash =
+    location.hash.replace('#','');
+
+
+  if(
+    hash &&
+    hash.startsWith('album/')
+  ){
+
+    const folder =
+      hash.split('/')[1];
+
+    setActiveTab('portfolio');
+
+    showAlbum(folder);
+
+  }
+
+  else if(hash === 'portfolio'){
+
+    setActiveTab('portfolio');
+
+    showPortfolio();
+
+  }
+
+  else{
+
+    setActiveTab('home');
+
+    showHome();
+
+  }
+
 }
+
+
 init();
+
 </script>
+
 </body>
 </html>
