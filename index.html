@@ -383,7 +383,7 @@
       display:block;
     }
 
-    /* NEW: Close button */
+    /* Close button */
 
     .lightbox-close{
       position:fixed;
@@ -430,6 +430,64 @@
     .lightbox-close:focus-visible{
       outline:2px solid #fff;
       outline-offset:3px;
+    }
+
+    /* =========================================================
+       NEXT / PREVIOUS BUTTONS
+       ========================================================= */
+
+    .lightbox-nav{
+      position:fixed;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:10001;
+
+      width:52px;
+      height:52px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border:1px solid rgba(255,255,255,0.35);
+      border-radius:50%;
+
+      background:rgba(0,0,0,0.45);
+      color:#fff;
+
+      font-family:Arial, sans-serif;
+      font-size:32px;
+      font-weight:300;
+      line-height:1;
+
+      cursor:pointer;
+
+      transition:
+        background .2s ease,
+        transform .2s ease,
+        border-color .2s ease;
+    }
+
+    .lightbox-nav:hover{
+      background:rgba(255,255,255,0.2);
+      border-color:rgba(255,255,255,0.7);
+    }
+
+    .lightbox-nav:active{
+      transform:translateY(-50%) scale(0.95);
+    }
+
+    .lightbox-nav:focus-visible{
+      outline:2px solid #fff;
+      outline-offset:3px;
+    }
+
+    .lightbox-prev{
+      left:25px;
+    }
+
+    .lightbox-next{
+      right:25px;
     }
 
     /* Caption */
@@ -487,6 +545,14 @@
         top:15px;
         right:15px;
       }
+
+      .lightbox-prev{
+        left:15px;
+      }
+
+      .lightbox-next{
+        right:15px;
+      }
     }
 
     @media (max-width:720px){
@@ -537,6 +603,20 @@
         top:12px;
         right:12px;
         font-size:27px;
+      }
+
+      .lightbox-nav{
+        width:42px;
+        height:42px;
+        font-size:27px;
+      }
+
+      .lightbox-prev{
+        left:10px;
+      }
+
+      .lightbox-next{
+        right:10px;
       }
 
       #lbcaption{
@@ -597,7 +677,8 @@
     aria-hidden="true"
   >
 
-    <!-- NEW: Close button -->
+    <!-- Close button -->
+
     <button
       id="lightbox-close"
       class="lightbox-close"
@@ -607,13 +688,41 @@
       ×
     </button>
 
+
+    <!-- Previous button -->
+
+    <button
+      id="lightbox-prev"
+      class="lightbox-nav lightbox-prev"
+      type="button"
+      aria-label="Previous photo"
+    >
+      ‹
+    </button>
+
+
+    <!-- Next button -->
+
+    <button
+      id="lightbox-next"
+      class="lightbox-nav lightbox-next"
+      type="button"
+      aria-label="Next photo"
+    >
+      ›
+    </button>
+
+
     <div class="lb-inner">
+
       <img
         id="lbimg"
         src=""
         alt=""
       >
+
     </div>
+
 
     <div id="lbcaption"></div>
 
@@ -632,6 +741,14 @@
    ========================================================= */
 
 let albums = [];
+
+
+/* =========================================================
+   LIGHTBOX STATE
+   ========================================================= */
+
+let currentLightboxAlbum = null;
+let currentLightboxIndex = 0;
 
 
 /* =========================================================
@@ -677,13 +794,17 @@ function el(tag, opts={}, ...kids){
   for(const k of kids){
 
     if(typeof k === 'string'){
+
       e.appendChild(
         document.createTextNode(k)
       );
+
     }
 
     else if(k){
+
       e.appendChild(k);
+
     }
 
   }
@@ -803,10 +924,13 @@ function showHome(){
     ){
 
       covers.push({
+
         album:alb,
+
         item:{
           file:s.file
         }
+
       });
 
     }
@@ -814,13 +938,16 @@ function showHome(){
     else{
 
       covers.push({
+
         album:{
           folder:s.folder,
           title:''
         },
+
         item:{
           file:s.file
         }
+
       });
 
     }
@@ -846,7 +973,9 @@ function showHome(){
       done++;
 
       if(done === covers.length){
+
         start(existing);
+
       }
 
     };
@@ -857,7 +986,9 @@ function showHome(){
       done++;
 
       if(done === covers.length){
+
         start(existing);
+
       }
 
     };
@@ -1004,7 +1135,9 @@ function showHome(){
       ()=>{
 
         if(!SLIDE_TIMER){
+
           startTimer();
+
         }
 
       }
@@ -1253,8 +1386,11 @@ function showAlbum(folder){
 
   back.onclick =
     ()=>{
+
       setActiveTab('portfolio');
+
       showPortfolio();
+
     };
 
 
@@ -1289,6 +1425,7 @@ function showAlbum(folder){
           {
             src:
               `images/${album.folder}/${img.file}`,
+
             alt:
               img.caption || img.file
           }
@@ -1298,6 +1435,7 @@ function showAlbum(folder){
       im.dataset.album =
         album.folder;
 
+
       im.dataset.index =
         ii;
 
@@ -1305,10 +1443,12 @@ function showAlbum(folder){
       im.addEventListener(
         'click',
         ()=>{
+
           openLightbox(
             album.folder,
             ii
           );
+
         }
       );
 
@@ -1339,22 +1479,95 @@ function openLightbox(folder,index){
   if(!album) return;
 
 
-  const item =
-    album.images[index];
+  if(!album.images || album.images.length === 0){
+    return;
+  }
+
+
+  currentLightboxAlbum =
+    folder;
+
+
+  currentLightboxIndex =
+    index;
+
+
+  updateLightbox();
 
 
   const lb =
     document.getElementById('lightbox');
 
+
+  lb.classList.add('visible');
+
+
+  lb.setAttribute(
+    'aria-hidden',
+    'false'
+  );
+
+
+  // Prevent the page behind the lightbox from scrolling
+
+  document.body.style.overflow =
+    'hidden';
+
+
+  // Scroll lightbox to top
+
+  lb.scrollTop = 0;
+
+}
+
+
+/* =========================================================
+   UPDATE LIGHTBOX PHOTO
+   ========================================================= */
+
+function updateLightbox(){
+
+  if(!currentLightboxAlbum){
+    return;
+  }
+
+
+  const album =
+    albums.find(
+      a => a.folder === currentLightboxAlbum
+    );
+
+
+  if(
+    !album ||
+    !album.images ||
+    album.images.length === 0
+  ){
+
+    return;
+
+  }
+
+
+  const item =
+    album.images[currentLightboxIndex];
+
+
+  if(!item){
+    return;
+  }
+
+
   const lbimg =
     document.getElementById('lbimg');
+
 
   const lbcap =
     document.getElementById('lbcaption');
 
 
   lbimg.src =
-    `images/${folder}/${item.file}`;
+    `images/${album.folder}/${item.file}`;
 
 
   lbimg.alt =
@@ -1365,20 +1578,92 @@ function openLightbox(folder,index){
     item.caption || '';
 
 
-  lb.classList.add('visible');
+  // Reset scroll position when moving to another photo
 
-  lb.setAttribute(
-    'aria-hidden',
-    'false'
-  );
+  const lb =
+    document.getElementById('lightbox');
 
-
-  // Prevent the page behind the lightbox from scrolling
-  document.body.style.overflow = 'hidden';
-
-
-  // Scroll lightbox to top
   lb.scrollTop = 0;
+
+}
+
+
+/* =========================================================
+   NEXT PHOTO
+   ========================================================= */
+
+function nextPhoto(){
+
+  if(!currentLightboxAlbum){
+    return;
+  }
+
+
+  const album =
+    albums.find(
+      a => a.folder === currentLightboxAlbum
+    );
+
+
+  if(
+    !album ||
+    !album.images ||
+    album.images.length === 0
+  ){
+
+    return;
+
+  }
+
+
+  currentLightboxIndex =
+    (currentLightboxIndex + 1)
+    % album.images.length;
+
+
+  updateLightbox();
+
+}
+
+
+/* =========================================================
+   PREVIOUS PHOTO
+   ========================================================= */
+
+function previousPhoto(){
+
+  if(!currentLightboxAlbum){
+    return;
+  }
+
+
+  const album =
+    albums.find(
+      a => a.folder === currentLightboxAlbum
+    );
+
+
+  if(
+    !album ||
+    !album.images ||
+    album.images.length === 0
+  ){
+
+    return;
+
+  }
+
+
+  currentLightboxIndex =
+    (
+      currentLightboxIndex -
+      1 +
+      album.images.length
+    )
+    % album.images.length;
+
+
+  updateLightbox();
 
 }
 
@@ -1407,8 +1692,23 @@ function closeLightbox(){
   ).src = '';
 
 
+  document.getElementById(
+    'lbcaption'
+  ).textContent = '';
+
+
+  currentLightboxAlbum =
+    null;
+
+
+  currentLightboxIndex =
+    0;
+
+
   // Restore page scrolling
-  document.body.style.overflow = '';
+
+  document.body.style.overflow =
+    '';
 
 }
 
@@ -1422,6 +1722,30 @@ document
   .addEventListener(
     'click',
     closeLightbox
+  );
+
+
+/* =========================================================
+   LIGHTBOX PREVIOUS BUTTON
+   ========================================================= */
+
+document
+  .getElementById('lightbox-prev')
+  .addEventListener(
+    'click',
+    previousPhoto
+  );
+
+
+/* =========================================================
+   LIGHTBOX NEXT BUTTON
+   ========================================================= */
+
+document
+  .getElementById('lightbox-next')
+  .addEventListener(
+    'click',
+    nextPhoto
   );
 
 
@@ -1449,22 +1773,59 @@ document
 
 
 /* =========================================================
-   ESCAPE KEY TO CLOSE
+   KEYBOARD CONTROLS
    ========================================================= */
 
 document.addEventListener(
   'keydown',
   (e)=>{
 
+    const lightbox =
+      document.getElementById('lightbox');
+
+
     if(
-      e.key === 'Escape' &&
-      document
-        .getElementById('lightbox')
-        .classList
-        .contains('visible')
+      !lightbox.classList.contains('visible')
     ){
 
+      return;
+
+    }
+
+
+    /* Escape = close */
+
+    if(e.key === 'Escape'){
+
       closeLightbox();
+
+      return;
+
+    }
+
+
+    /* Right arrow = next */
+
+    if(e.key === 'ArrowRight'){
+
+      e.preventDefault();
+
+      nextPhoto();
+
+      return;
+
+    }
+
+
+    /* Left arrow = previous */
+
+    if(e.key === 'ArrowLeft'){
+
+      e.preventDefault();
+
+      previousPhoto();
+
+      return;
 
     }
 
